@@ -23,6 +23,7 @@ from datetime import date, datetime
 now = datetime.now()
 dia=now.date()
 hora=now.time()
+#hora = datetime.utcfromtimestamp(hora)
 dia1=dia.strftime('%d/%m/%Y')
 hora1=hora.strftime('%H:%M:%S')
 homeurl = "https://cuantoestaeldolar.pe/"

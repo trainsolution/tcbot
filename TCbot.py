@@ -178,7 +178,7 @@ for i in range(601):
                     valorminstr=str(vminventa)
                     valormaxstr=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
-                    mensaje = "ALERTA - EL DOLAR ONLINE HA BAJADO "+ incr + "\nMINIMO ONLINE " + "\nPARALELO "+  paralelo +"\nSUNAT "+sunat +"\nHora: " + hora1
+                    mensaje = "ALERTA EL DOLAR ONLINE HA BAJADO "+ incr + "\nVENTA WEB " + valorminstr + "\nPARALELO "+  paralelo +"\nSUNAT "+sunat +"\nHora: " + hora1
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```')
                     valor=vminventa
                     incr=valor-vminventa 
@@ -190,7 +190,7 @@ for i in range(601):
                     valormaxstr=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ALERTA - EL DOLAR ONLINE HA SUBIDO "+ incr + "\nMINIMO ONLINE " + "\nPARALELO "+ paralelo +"\nSUNAT "+sunat +"\nHora: " + hora1 
+                    mensaje = "ALERTA EL DOLAR ONLINE HA SUBIDO "+ incr + "\nVENTA WEB " +valorminstr +"\nPARALELO "+ paralelo +"\nSUNAT "+sunat +"\nHora: " + hora1 
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```')
                     valor=vminventa
        del sunatw
