@@ -178,7 +178,7 @@ for i in range(601):
                     valorminstr=str(vminventa)
                     valormaxstr=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
-                    mensaje = "ALERTA - EL DOLAR HA BAJADO "+ incr + "\nPARALELO "+ paralelo +"\nMINIMO ONLINE S/ " + valorminstr + "\nCOMPRA MINIMO "+ valormaxstr +"\nSUNAT "+sunat +"\nHora: " + hora1
+                    mensaje = "ALERTA - EL DOLAR ONLINE HA BAJADO "+ incr + "\nMINIMO ONLINE " + "\nPARALELO "+  paralelo +"\nSUNAT "+sunat +"\nHora: " + hora1
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```')
                     valor=vminventa
                     incr=valor-vminventa 
@@ -190,7 +190,7 @@ for i in range(601):
                     valormaxstr=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ALERTA - EL DOLAR HA SUBIDO "+ incr + "\nPARALELO "+ paralelo +"\nMINIMO ONLINE S/ " + valorminstr +"\nCOMPRA MAXIMO "+ valormaxstr +"\nSUNAT "+sunat +"\nHora: " + hora1 
+                    mensaje = "ALERTA - EL DOLAR ONLINE HA SUBIDO "+ incr + "\nMINIMO ONLINE " + "\nPARALELO "+ paralelo +"\nSUNAT "+sunat +"\nHora: " + hora1 
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```')
                     valor=vminventa
        del sunatw
@@ -207,4 +207,4 @@ for i in range(601):
       #  ordenado=pd.DataFrame()
       # print(lista1)
 
-       time.sleep(10)
+       time.sleep(60)
