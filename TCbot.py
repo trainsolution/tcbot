@@ -1,18 +1,18 @@
-from cgi import test
-from re import A
+#from cgi import test
+#from re import A
 from ssl import get_protocol_name
 import string
 from tokenize import Floatnumber
-from typing import get_args
-from attr import attrs
+#from typing import get_args
+#from attr import attrs
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
-import csv
+#import csv
 import numpy as np
 from tabulate import tabulate
 import time
-import gc 
+#import gc 
 
 valor = 100
 
