@@ -34,6 +34,7 @@ for i in range(601):
        preciov=[]
        ncasa=[]
        alternop=[]
+       alternop2=[]
        sunatw=[]
        palternov=[]
        now = datetime.now()
@@ -49,6 +50,13 @@ for i in range(601):
        for var1 in elemento:
               
               #para precio dolar paralelo
+
+              arribaizq2 = var1.find('div', class_="td tb_dollar_compra tb_dollar__",src="")
+              if arribaizq2:
+                     alternop2.append(arribaizq2.text) #tabla
+                     arribaizq2=arribaizq2.text 
+              else: alternop2.append('')
+
               arribaizq = var1.find('div', class_="td tb_dollar_venta tb_dollar__",src="")
               if arribaizq:
                      alternop.append(arribaizq.text) #tabla
@@ -114,9 +122,12 @@ for i in range(601):
        homelink=[s.translate(removet) for s in homelink]
        bancos=[s.translate(removet) for s in bancos]
        alternop=[s.translate(removet) for s in alternop]
+       alternop2=[s.translate(removet) for s in alternop2]
        sunatw=[s.translate(removet) for s in sunatw]
-       paralelo=alternop[0]
-       paralelo=paralelo[3:8]
+       paralelov=alternop[0]
+       paralelov=paralelov[3:8]
+       paraleloc=alternop2[0]
+       paraleloc=paraleloc[1:6]
        sunat=sunatw[0]
        sunat=sunat[3:8]
        print(sunat)
@@ -154,13 +165,13 @@ for i in range(601):
        lista1.COMPRA = lista1.COMPRA.astype(float)
        lista3=lista1.sort_values(by=['COMPRA'], kind="mergesort",ascending=True)
        time.sleep(2)
-       lista1.COMPRA = lista1.COMPRA.astype(str)
+       lista1.COMPRA = lista3.COMPRA.astype(str)
 
        print(hora2)
 
        #tabla dataframe en orden
        vminventa = float(ordenado["VENTA"][0])
-       vmincompra = float(lista1["COMPRA"][0])
+       vmincompra = float(lista3["COMPRA"][0])
        
        ordenado=tabulate(ordenado, headers='keys', tablefmt='psql',showindex="never")
 
@@ -173,17 +184,17 @@ for i in range(601):
        
        if valor == 100:
             valorminstr=str(vminventa)
-            valormaxstr=str(vmincompra)
-            mensaje = "LA VENTA DEL DOLAR SE COTIZA A:\nPARALELO "+ paralelo + "\nVENTA ONLINE-WEB S/ " + valorminstr +"\nSUNAT "+sunat + "\n===== CASAS DE CAMBIO DOLAR ONLINE ====="
+            valorminstr2=str(vmincompra)
+            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA "+ paralelov +"\nONLINE COMPRA MINIMO "+ valorminstr2 +  "\nONLINE VENTA MINIMO " + valorminstr + "\n\n- P. actuales Casas de Cambio online -"
             test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: " + f'`{hora2}`')
             valor=vminventa
        else:
             if vminventa < valor:
                     #test = telegram_bot_sendtext("\n".join(ordenado['NOMBRE']+" "+ordenado['COMPRA']+" "+ordenado['VENTA']))
                     valorminstr=str(vminventa)
-                    valormaxstr=str(vmincompra)
+                    valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
-                    mensaje = "ALERTA EL DOLAR ONLINE HA BAJADO "+ incr + "\nVENTA ONLINE-WEB " + valorminstr + "\nPARALELO "+  paralelo +"\nSUNAT "+sunat
+                    mensaje = "ALERTA EL PRECIO DE VENTA ONLINE HA BAJADO "+ incr + "\nONLINE VENTA MINIMO ACTUAL " + valorminstr + "\nPARALELO "+  paraleloc +"\n\n- P. actuales Casas de Cambio online -"
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+ "\nHora: "+ hora2)
                     valor=vminventa
                     incr=valor-vminventa 
@@ -192,15 +203,16 @@ for i in range(601):
                         
                     #test = telegram_bot_sendtext("\n".join(ordenado['NOMBRE']+" "+ordenado['COMPRA']+" "+ordenado['VENTA']))
                     valorminstr=str(vminventa)
-                    valormaxstr=str(vmincompra)
+                    valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ALERTA EL DOLAR ONLINE HA SUBIDO "+ incr + "\nVENTA ONLINE-WEB " +valorminstr +"\nPARALELO "+ paralelo +"\nSUNAT "+sunat
+                    mensaje = "ALERTA EL PRECIO VENTA ONLINE HA SUBIDO "+ incr + "\nONLINE VENTA MINIMO ACTUAL " +valorminstr +"\nPARALELO "+ paraleloc +"\n\n- P. actuales Casas de Cambio online -"
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+hora2)
                     valor=vminventa
        del sunatw
        del sunat
-       del paralelo
+       del paraleloc
+       del paralelov
        del alternop
        
      #  lista1=lista1.drop(range(0,19),axis=0)
