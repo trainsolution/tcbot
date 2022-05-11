@@ -185,7 +185,7 @@ for i in range(601):
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmincompra)
-            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA "+ paralelov  +  "\nONLINE VENTA MINIMO " + valorminstr + "\n\n- P. actuales Casas de Cambio online -"
+            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\nONLINE VENTA MINIMO: " + valorminstr + "\n\n- P. actuales Casas de Cambio online -"
             test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: " + f'`{hora2}`')
             valor=vminventa
        else:
@@ -194,7 +194,7 @@ for i in range(601):
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
-                    mensaje = "ALERTA\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL " + valorminstr + "\nPARALELO "+  paraleloc +"\n\n- P. actuales Casas de Cambio online -"
+                    mensaje = "ALERTA\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n- P. actuales Casas de Cambio online -"
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+ "\nHora: "+ hora2)
                     valor=vminventa
                     incr=valor-vminventa 
@@ -206,7 +206,7 @@ for i in range(601):
                     valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ALERTA\nEL P. VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL " +valorminstr +"\nPARALELO "+ paraleloc +"\n\n- P. actuales Casas de Cambio online -"
+                    mensaje = "ALERTA\nEL P. VENTA ONLINE HA SUBIDO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " +valorminstr +"\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n- P. actuales Casas de Cambio online -"
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+hora2)
                     valor=vminventa
        del sunatw
