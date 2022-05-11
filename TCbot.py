@@ -152,10 +152,12 @@ for i in range(601):
        lista1 = lista1[filtro]
        filtro2 = lista1['VENTA'] != "0.000"
        lista1 = lista1[filtro2]
-       filtro3 = lista1['VENTA'] != "0"
+       print(lista1)
+       filtro3 = lista1['VENTA'] !="0.0000"
        lista1 = lista1[filtro3]
        
        lista1.VENTA = lista1.VENTA.astype(float)
+       print(lista1)
        lista2=lista1.sort_values(by=['VENTA'], kind="mergesort",ascending=True)
        time.sleep(2)
        lista1.VENTA = lista1.VENTA.astype(str)
