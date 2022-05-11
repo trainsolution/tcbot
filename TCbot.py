@@ -132,11 +132,13 @@ for i in range(601):
        del preciov
 
        # escrito en csv
-       lista1.to_csv(r'C:\DISCO G\SINCRONIZACION\CURSOS FINANCIEROS\webscrap\lista_tc3.csv', index=None, header=True, encoding='utf-8-sig')
+      #lista1.to_csv(r'C:\DISCO G\SINCRONIZACION\CURSOS FINANCIEROS\webscrap\lista_tc3.csv', index=None, header=True, encoding='utf-8-sig')
        filtro = lista1['NOMBRE'] != ""
        lista1 = lista1[filtro]
        filtro2 = lista1['VENTA'] != "0.000"
        lista1 = lista1[filtro2]
+       filtro3 = lista1['VENTA'] != "0"
+       lista1 = lista1[filtro3]
        
        lista1.VENTA = lista1.VENTA.astype(float)
        lista2=lista1.sort_values(by=['VENTA'], kind="mergesort",ascending=True)
