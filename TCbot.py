@@ -194,7 +194,7 @@ for i in range(601):
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
-                    mensaje = "ALERTA EL PRECIO DE VENTA ONLINE HA BAJADO "+ incr + "\nONLINE VENTA MINIMO ACTUAL " + valorminstr + "\nPARALELO "+  paraleloc +"\n\n- P. actuales Casas de Cambio online -"
+                    mensaje = "ALERTA\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL " + valorminstr + "\nPARALELO "+  paraleloc +"\n\n- P. actuales Casas de Cambio online -"
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+ "\nHora: "+ hora2)
                     valor=vminventa
                     incr=valor-vminventa 
@@ -206,7 +206,7 @@ for i in range(601):
                     valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ALERTA EL PRECIO VENTA ONLINE HA SUBIDO "+ incr + "\nONLINE VENTA MINIMO ACTUAL " +valorminstr +"\nPARALELO "+ paraleloc +"\n\n- P. actuales Casas de Cambio online -"
+                    mensaje = "ALERTA\nEL P. VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL " +valorminstr +"\nPARALELO "+ paraleloc +"\n\n- P. actuales Casas de Cambio online -"
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+hora2)
                     valor=vminventa
        del sunatw
