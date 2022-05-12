@@ -153,7 +153,7 @@ for i in range(601):
        filtro2 = lista1['VENTA'] != "0.000"
        lista1 = lista1[filtro2]
        print(lista1)
-       filtro3 = lista1['VENTA'] !="0.0000"
+       filtro3 = lista1['VENTA'] != "0.0000"
        lista1 = lista1[filtro3]
        
        lista1.VENTA = lista1.VENTA.astype(float)
