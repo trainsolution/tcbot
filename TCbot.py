@@ -34,9 +34,9 @@ for i in range(601):
        page = requests.get(homeurl,headers={"User-Agent":"Mozilla/6.0"})
        time.sleep(2)
        html_soup = BeautifulSoup(page.content,'html.parser')
-       time.sleep(2)
-       page2 = requests.get(homeurl2,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
-       html_soup2 = BeautifulSoup(page2.content,'html.parser')
+      # time.sleep(2)
+       #page2 = requests.get(homeurl2,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
+       #html_soup2 = BeautifulSoup(page2.content,'html.parser')
 
 
        precioc=[]
@@ -237,10 +237,10 @@ for i in range(601):
        del bancotv
        del bancotv2
        
-       elemento2 = html_soup2.find('span', class_= "priceText__06f600fa3e")
-       time.sleep(2)
+      # elemento2 = html_soup2.find('span', class_= "priceText__06f600fa3e")
+       #time.sleep(2)
        
-       blc=(elemento2.text)
+     #  blc=(elemento2.text)
 
        #filtros y ordenamiento
        filtro = lista1['NOMBRE'] != ""
@@ -262,7 +262,7 @@ for i in range(601):
        lista1.COMPRA = lista3.COMPRA.astype(str)
 
        print(hora2)
-       print(blc)
+      # print(blc)
 
        
        vminventa = float(ordenado["VENTA"][0])
@@ -281,7 +281,7 @@ for i in range(601):
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmincompra)
-            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +"\nPRECIO BLOOMBERG: "+ blc +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
             mensaje2 = "\n              TC BANCOS              \n"
             test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
             valor=vminventa
@@ -293,7 +293,7 @@ for i in range(601):
                     valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
 
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\nPRECIO BLOOMBERG: "+blc+"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
                     valor=vminventa
                     
@@ -305,7 +305,7 @@ for i in range(601):
                     valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " +valorminstr +"\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\nPRECIO BLOOMBERG: "+blc+"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
                     test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
                     valor=vminventa
        del sunatw
