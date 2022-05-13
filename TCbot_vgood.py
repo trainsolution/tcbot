@@ -1,7 +1,5 @@
 #from cgi import test
 #from re import A
-from ctypes.wintypes import PWIN32_FIND_DATAA
-from os import remove
 from ssl import get_protocol_name
 import string
 from tokenize import Floatnumber
@@ -28,17 +26,10 @@ hora=now.time()
 dia1=dia.strftime('%d/%m/%Y')
 #hora1=hora.strftime('%H:%M:%S')
 homeurl = "https://cuantoestaeldolar.pe/"
-homeurl2 = "https://www.bloomberg.com/quote/USDPEN:CUR"
 
 for i in range(601):
-       page = requests.get(homeurl,headers={"User-Agent":"Mozilla/6.0"})
-       time.sleep(1)
+       page = requests.get(homeurl)
        html_soup = BeautifulSoup(page.content,'html.parser')
-       time.sleep(1)
-       page2 = requests.get(homeurl2,headers={"User-Agent":"Mozilla/6.0"})
-       html_soup2 = BeautifulSoup(page2.content,'html.parser')
-
-
        precioc=[]
        preciov=[]
        ncasa=[]
@@ -46,13 +37,6 @@ for i in range(601):
        alternop2=[]
        sunatw=[]
        palternov=[]
-       banco1c=[]
-       banco2c=[]
-       bancotc=[]
-       bancotv=[]
-       banco1v=[]
-       banco2v=[]
-       banksname=['BCP','INTERBANK','BBVA','SCOTIA','B. DE LA NACION']
        now = datetime.now()
        hora=now.time()
        #hora1=hora.strftime('%H:%M:%S') 
@@ -65,7 +49,7 @@ for i in range(601):
 
        for var1 in elemento:
               
-              #sección dolar paralelo
+              #para precio dolar paralelo
 
               arribaizq2 = var1.find('div', class_="td tb_dollar_compra tb_dollar__",src="")
               if arribaizq2:
@@ -86,11 +70,12 @@ for i in range(601):
               arribam = var1.find('div', class_="td tb_dollar_venta tb_dollar__",src="")
               if arribam:
                       sunatw.append(arribam.text) #tabla
+                      print(sunatw)
                       arribam=arribam.text        
               else: sunatw.append('')
   
-       #seccion casas de cambio
-       elemento = html_soup.find_all('div', class_= "wrapper-table tb_dollar") 
+
+       elemento = html_soup.find_all('div', class_= "wrapper-table tb_dollar") #seccion de interes por datos
 
        for var1 in elemento:
 
@@ -113,68 +98,22 @@ for i in range(601):
                      pventa=pventa.text
               else:    preciov.append('')
 
+              link = var1.find('a', rel="nofollow")
+              if link:
+                     homelink.append(link['href']) #tabla
+                     link=link.text
+              else:    homelink.append('')
 
-       #seción bancos even
-       elemento = html_soup.find_all('div', class_= "wrapper-table tb_dollar t-even tb_hidden-") 
-       
-       for var1 in elemento:
-              bank1c = var1.find('div', class_="td tb_dollar_compra")
-              
-              if bank1c:
-                     banco1c.append(bank1c.text) 
-                     #print(banco1c)
-                     bank1c=bank1c.text
-              else:    banco1c.append('')
+              banks = var1.find('div', class_="wrapper-table") 
+              if banks:
+                     bancos.append(banks.text) #tabla
+                     banks=banks.text
+              #else:    bancos.append('')
 
-              bank1v = var1.find('div', class_="td tb_dollar_venta")
-              
-              if bank1v:
-                     banco1v.append(bank1v.text) 
-                     bank1v=bank1v.text
-              else:    banco1v.append('')
-
-
-
-       #seción bancos odd
-       elemento = html_soup.find_all('div', class_= "wrapper-table tb_dollar t-odd tb_hidden-") 
-       
-       for var1 in elemento:
-              bank2c = var1.find('div', class_="td tb_dollar_compra")
-              
-              if bank2c:
-                     banco2c.append(bank2c.text) 
-                     bank2c=bank2c.text
-              else:    banco2c.append('')
-             
-              bank2v = var1.find('div', class_="td tb_dollar_venta")
-             
-              if bank2v:
-                     banco2v.append(bank2v.text) 
-                     bank2v=bank2v.text
-              else:    banco2v.append('')
-
-
-     
-       bancotc = banco1c + banco2c
-       bancotc[::2]=banco1c
-       bancotc[1::2]=banco2c
-
-       bancotv = banco1v + banco2v
-       bancotv[::2]=banco1v
-       bancotv[1::2]=banco2v
-
-       bancotv2=[]
-       for esp in bancotv:
-              result = esp.replace('S/.','S/')
-              bancotv2.append(result)
-      
-       #print(bancotc)
-       #print(banco2c)
-       
        # define elementos a reemplazar: vacio, salto de pagina y BCP
        removet=str.maketrans('',"",'\n')
        removet2=str.maketrans('',"","BCP")
-       removet3=str.maketrans('$',' ','S/')
+
        # reemplaza
 
        ncasa=[s.translate(removet) for s in ncasa]
@@ -185,27 +124,13 @@ for i in range(601):
        alternop=[s.translate(removet) for s in alternop]
        alternop2=[s.translate(removet) for s in alternop2]
        sunatw=[s.translate(removet) for s in sunatw]
-       banco1c=[s.translate(removet) for s in banco1c]
-       banco2c=[s.translate(removet) for s in banco2c]
-       banco1v=[s.translate(removet) for s in banco1v]
-       banco2v=[s.translate(removet) for s in banco2v]
-       bancotc=[s.translate(removet) for s in bancotc]
-       bancotc=[s.translate(removet3) for s in bancotc]
-       bancotv2=[s.translate(removet) for s in bancotv2]
-       bancotv2=[s.translate(removet3) for s in bancotv2]
-       
-       bancotc=[item for item in bancotc if len(item)>0]
-       bancotv2=[item for item in bancotv2 if len(item)>0]
-
-       
-
        paralelov=alternop[0]
        paralelov=paralelov[3:8]
        paraleloc=alternop2[0]
        paraleloc=paraleloc[1:6]
        sunat=sunatw[0]
        sunat=sunat[3:8]
-     
+       print(sunat)
 
        lista1 = pd.DataFrame({
                             'NOMBRE':ncasa,
@@ -217,59 +142,41 @@ for i in range(601):
                      #       'HORA': hora1
                             })
 
-       
-       
-       listab = pd.DataFrame({
-                            'NOMBRE': banksname,
-                            'COMPRA': bancotc,
-                            'VENTA': bancotv2,
-
-
-       })
-
        del ncasa
        del precioc
        del preciov
-       del banco1c
-       del banco2c
-       del banco1v
-       del banco2v
-       del bancotc
-       del bancotv
-       del bancotv2
-       
-       elemento2 = html_soup2.find('span', class_= "priceText__06f600fa3e")
-       time.sleep(1)
-       blc=(elemento2.text)
 
-       #filtros y ordenamiento
+       # escrito en csv
+      #lista1.to_csv(r'C:\DISCO G\SINCRONIZACION\CURSOS FINANCIEROS\webscrap\lista_tc3.csv', index=None, header=True, encoding='utf-8-sig')
        filtro = lista1['NOMBRE'] != ""
        lista1 = lista1[filtro]
        filtro2 = lista1['VENTA'] != "0.000"
        lista1 = lista1[filtro2]
-       
+       print(lista1)
        filtro3 = lista1['VENTA'] != "0.0000"
        lista1 = lista1[filtro3]
        
        lista1.VENTA = lista1.VENTA.astype(float)
+       print(lista1)
        lista2=lista1.sort_values(by=['VENTA'], kind="mergesort",ascending=True)
+       time.sleep(2)
        lista1.VENTA = lista1.VENTA.astype(str)
-      
+       #print(lista2)
        ordenado=lista2.reset_index(level=None, drop=True, inplace=False, col_level=0, col_fill='')
        
        lista1.COMPRA = lista1.COMPRA.astype(float)
        lista3=lista1.sort_values(by=['COMPRA'], kind="mergesort",ascending=True)
+       time.sleep(2)
        lista1.COMPRA = lista3.COMPRA.astype(str)
 
        print(hora2)
 
-       
+       #tabla dataframe en orden
        vminventa = float(ordenado["VENTA"][0])
        vmincompra = float(lista3["COMPRA"][0])
        
-       #tabla dataframe en orden
        ordenado=tabulate(ordenado, headers='keys', tablefmt='psql',showindex="never")
-       listab=tabulate(listab, headers='keys', tablefmt='psql',showindex="never")
+
        def telegram_bot_sendtext(bot_message):
               bot_token = '5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y'
               bot_chatID = '-1001791296695'
@@ -280,32 +187,29 @@ for i in range(601):
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmincompra)
-            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +"\nPRECIO BLOOMBERG: "+blc+  "\nONLINE VENTA MINIMO: " + valorminstr + "\n\n    - TC Casas de Cambio online -    "
-            mensaje2 = "\n              TC BANCOS              \n"
-            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
+            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\nONLINE VENTA MINIMO: " + valorminstr + "\n\n- P. actuales Casas de Cambio online -"
+            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: " + f'`{hora2}`')
             valor=vminventa
-            print(mensaje2)
        else:
             if vminventa < valor:
-                    
+                    #test = telegram_bot_sendtext("\n".join(ordenado['NOMBRE']+" "+ordenado['COMPRA']+" "+ordenado['VENTA']))
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
-
-                    mensaje = "ALERTA\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\nPRECIO BLOOMBERG: "+blc+"\n\n    - TC Casas de Cambio online -    "
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
+                    mensaje = "ALERTA\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n- P. actuales Casas de Cambio online -"
+                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+ "\nHora: "+ hora2)
                     valor=vminventa
-                    
+                    incr=valor-vminventa 
             else:
                 if vminventa > valor:
                         
-                    
+                    #test = telegram_bot_sendtext("\n".join(ordenado['NOMBRE']+" "+ordenado['COMPRA']+" "+ordenado['VENTA']))
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ALERTA\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " +valorminstr +"\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\nPRECIO BLOOMBERG: "+blc+"\n\n    - TC Casas de Cambio online -    "
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
+                    mensaje = "ALERTA\nEL P. VENTA ONLINE HA SUBIDO S/"+ incr + "\n\nONLINE VENTA MINIMO ACTUAL: " +valorminstr +"\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n- P. actuales Casas de Cambio online -"
+                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+hora2)
                     valor=vminventa
        del sunatw
        del sunat
@@ -313,4 +217,13 @@ for i in range(601):
        del paralelov
        del alternop
        
-       time.sleep(3)
+     #  lista1=lista1.drop(range(0,19),axis=0)
+       #print(lista1)
+      # del lista1
+      #   del ordenado
+      #  gc.collect()
+      #   lista1=pd.DataFrame()
+      #  ordenado=pd.DataFrame()
+      # print(lista1)
+
+       time.sleep(60)
