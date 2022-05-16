@@ -281,7 +281,7 @@ for i in range(601):
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmincompra)
-            mensaje = "EL DOLAR SE COTIZA:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+            mensaje = "BUENOS DIAS. EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
             mensaje2 = "\n              TC BANCOS              \n"
             test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
             valor=vminventa
