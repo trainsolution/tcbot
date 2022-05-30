@@ -252,6 +252,8 @@ for i in range(601):
        lista1 = lista1[filtro3]
        filtro4 = lista1['NOMBRE'] != "Rapidex"
        lista1 = lista1[filtro4]
+       filtro5 = lista1['NOMBRE'] != "Kaspay"
+       lista1 = lista1[filtro5]
 
        lista1.VENTA = lista1.VENTA.astype(float)
        lista2=lista1.sort_values(by=['VENTA'], kind="mergesort",ascending=True)
