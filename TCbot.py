@@ -318,4 +318,4 @@ for i in range(601):
        del paralelov
        del alternop
        
-       time.sleep(60)
+       time.sleep(300)
