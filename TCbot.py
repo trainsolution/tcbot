@@ -318,4 +318,5 @@ for i in range(601):
        del paralelov
        del alternop
        
-       time.sleep(300)
+       #600 es 10 minutos
+       time.sleep(600)
