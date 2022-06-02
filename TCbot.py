@@ -319,4 +319,4 @@ for i in range(601):
        del alternop
        
        #600 es 10 minutos
-       time.sleep(600)
+       time.sleep(900)
