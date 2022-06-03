@@ -319,4 +319,5 @@ for i in range(601):
        del alternop
        
        #600 es 10 minutos
-       time.sleep(900)
+       #60 es 1 minuto
+       time.sleep(1200)
