@@ -30,6 +30,7 @@ dia1=dia.strftime('%d/%m/%Y')
 homeurl = "https://cuantoestaeldolar.pe/"
 homeurl2 = "https://www.bloomberg.com/quote/USDPEN:CUR"
 
+
 for i in range(601):
        page = requests.get(homeurl,headers={"User-Agent":"Mozilla/6.0"})
        time.sleep(2)
@@ -59,7 +60,7 @@ for i in range(601):
        IST = pytz.timezone('America/Lima') 
        hora2=datetime.now(IST)
        hora2=hora2.strftime('%H:%M:%S')
-  
+       
        
        elemento = html_soup.find_all('div', class_= "wrapper-table tb_dollar t-odd tb_hidden-") 
 
@@ -250,7 +251,11 @@ for i in range(601):
        
        filtro3 = lista1['VENTA'] != "0.0000"
        lista1 = lista1[filtro3]
-       
+       filtro4 = lista1['NOMBRE'] != "Rapidex"
+       lista1 = lista1[filtro4]
+       filtro5 = lista1['NOMBRE'] != "Kaspay"
+       lista1 = lista1[filtro5]
+
        lista1.VENTA = lista1.VENTA.astype(float)
        lista2=lista1.sort_values(by=['VENTA'], kind="mergesort",ascending=True)
        lista1.VENTA = lista1.VENTA.astype(str)
@@ -281,12 +286,11 @@ for i in range(601):
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmincompra)
-            
-            mensaje = "BUEN DIA\nEMPEZAMOS CON EL DOLAR COTIZANDO A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+            mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
             mensaje2 = "\n              TC BANCOS              \n"
-            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
+            #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
             valor=vminventa
-            #print(mensaje2)
+            #print(ordenado)
        else:
             if vminventa < valor:
                     
@@ -294,8 +298,8 @@ for i in range(601):
                     valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
 
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "VENTA ONLINE MINIMO COTIZA A : " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
+                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+                    #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
                     valor=vminventa
                     
             else:
@@ -306,8 +310,8 @@ for i in range(601):
                     valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\nVENTA ONLINE MINIMO COTIZA A: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
+                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+                    #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
                     valor=vminventa
        del sunatw
        del sunat
@@ -315,6 +319,14 @@ for i in range(601):
        del paralelov
        del alternop
        
-       time.sleep(30)
-
-print("CERRAMOS LA SESION POR EL DIA DE HOY. HASTA PRONTO")
+       #600 es 10 minutos
+       #60 es 1 minuto
+       print(hora.hour)
+       if hora.hour > 12:
+              t=3600
+              
+       else:
+              t=1800
+       
+       print(t)
+       time.sleep(t)
