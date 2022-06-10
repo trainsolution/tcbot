@@ -321,11 +321,11 @@ for i in range(601):
        
        #600 es 10 minutos
        #60 es 1 minuto
-       print(hora.hour)
-       if hora.hour > 12:
-              t=3600
+       #print(hora.hour)
+       #if hora.hour > 12:
+      #        t=3600
               
-       else:
-              t=1800
+       #else:
+       t=1200
               
        time.sleep(t)
