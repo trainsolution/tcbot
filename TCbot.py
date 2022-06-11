@@ -326,6 +326,6 @@ for i in range(601):
       #        t=3600
               
        #else:
-       t=1200
+       t=3600
               
        time.sleep(t)
