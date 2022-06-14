@@ -293,7 +293,8 @@ for i in range(601):
             valor=vminventa
             #print(ordenado)
        else:
-            if vminventa < valor:
+            #0.003 para evitar avisos por cambios muy pequeños de precio  
+            if vminventa <= valor-0.003:
                     
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
@@ -304,7 +305,7 @@ for i in range(601):
                     valor=vminventa
                     
             else:
-                if vminventa > valor:
+                if vminventa >= valor+0.003:
                         
                     
                     valorminstr=str(vminventa)
