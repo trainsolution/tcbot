@@ -17,7 +17,6 @@ import time
 #import gc 
 import pytz
 valor = 100
-import tweepy
 
 homelink=[]
 bancos=[]
@@ -264,17 +263,16 @@ for i in range(601):
        ordenado=lista2.reset_index(level=None, drop=True, inplace=False, col_level=0, col_fill='')
        
        lista1.COMPRA = lista1.COMPRA.astype(float)
-       lista3=lista1.sort_values(by=['COMPRA'], kind="mergesort",ascending=False)
-       lista4=lista3.reset_index(level=None, drop=True, inplace=False, col_level=0, col_fill='')
+       lista3=lista1.sort_values(by=['COMPRA'], kind="mergesort",ascending=True)
        lista1.COMPRA = lista3.COMPRA.astype(str)
 
        print(hora2)
+      # print(blc)
 
-       #Valores máximo de compra y mínimo de venta en este momento
+       
        vminventa = float(ordenado["VENTA"][0])
-       vmaxcompra = float(lista4["COMPRA"][0])
-       print(str(vmaxcompra))
-
+       vmincompra = float(lista3["COMPRA"][0])
+       
        #tabla dataframe en orden
        ordenado=tabulate(ordenado, headers='keys', tablefmt='psql',showindex="never")
        listab=tabulate(listab, headers='keys', tablefmt='psql',showindex="never")
@@ -287,21 +285,21 @@ for i in range(601):
        
        if valor == 100:
             valorminstr=str(vminventa)
-            valorminstr2=str(vmaxcompra)
+            valorminstr2=str(vmincompra)
             mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
             mensaje2 = "\n              TC BANCOS              \n"
-            #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
+            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
             valor=vminventa
             #print(ordenado)
        else:
             if vminventa < valor:
                     
                     valorminstr=str(vminventa)
-                    valorminstr2=str(vmaxcompra)
+                    valorminstr2=str(vmincompra)
                     incr = str(round(valor - vminventa,4))
 
                     mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-                    #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
+                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
                     valor=vminventa
                     
             else:
@@ -309,41 +307,25 @@ for i in range(601):
                         
                     
                     valorminstr=str(vminventa)
-                    valorminstr2=str(vmaxcompra)
+                    valorminstr2=str(vmincompra)
                     incr = str(round(vminventa -valor,4))
                     
                     mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-                    #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
+                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
                     valor=vminventa
-       
-       
-       #600 es 10 minutos
-       #60 es 1 minuto
-       #print(hora.hour)
-       #if hora.hour > 12:
-              #t=3600
-              
-       #else:
-       t=300
-
-       auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
-       
-       api = tweepy.API(auth)
-       try:
-              api.verify_credentials()
-              print("Authentication OK")
-       except:
-              print("Error during authentication")
-
-       # Create API object
-       api = tweepy.API(auth, wait_on_rate_limit=True)
-
-       api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\n\nSiguenos en Nuestro Canal de Telegram t.me/elcanaldeldolarperu para mayor información")
-
-       #print(t)
        del sunatw
        del sunat
        del paraleloc
        del paralelov
        del alternop
+       
+       #600 es 10 minutos
+       #60 es 1 minuto
+       #print(hora.hour)
+       #if hora.hour > 12:
+      #        t=3600
+              
+       #else:
+       t=3600
+              
        time.sleep(t)
