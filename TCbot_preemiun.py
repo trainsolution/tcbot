@@ -1,4 +1,3 @@
-
 #from ctypes.wintypes import PWIN32_FIND_DATAA
 from os import remove
 #from ssl import get_protocol_name
@@ -28,8 +27,7 @@ homeurl2 = "https://www.bloomberg.com/quote/USDPEN:CUR"
 option2=[]
 option3=[]
 
-#print(hora.hour-5)
-while((hora.hour-5) in range (7,22)):
+while((hora.hour) in range (0,23)):
 
  homeurl1n="https://www.bloomberglinea.com/quote/USDPEN:CUR/"
  page1n = requests.get(homeurl1n,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
@@ -44,7 +42,7 @@ while((hora.hour-5) in range (7,22)):
     #print(option2[0]) Cierre ayer 
 
 
-    #Barchart 1: Resistencias, Soportes y otros datos
+ #Barchart 1: Resistencias, Soportes y otros datos
  homeurl2n = "https://www.barchart.com/forex/quotes/%5EUSDPEN/cheat-sheet"
  page2n = requests.get(homeurl2n,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
  html_soup2n = BeautifulSoup(page2n.content,'html.parser')
@@ -65,17 +63,20 @@ while((hora.hour-5) in range (7,22)):
  #option11 = elemento.find('a', class_="buy-color")  # Recomendacion de comprar o vender  
  elemento = html_soup3n.find('div', class_="bc-quote-overview row")# Cuadrito de datos pequeños
  new = re.findall("(\d*\.\d+|\d+.\d*)",str(elemento))  
- print(new)
+ #print(new)
+
  listadatos = pd.DataFrame({
                              'PREVIO':option2[0],
-                             'RANGO 52 SEM':option2[7],
+                             'RANGO 52 SEM':new[19][0:4]+"-"+new[20][0:4],
                              'CAMBIO 5 DIAS': new[17]+"%",
-                             'STOCASTICO %K': new[13]
+                             'ESTOCASTICO %K': new[13]
                              },index=[0])  
 
+ print("DATOS DIARIOS REFERENCIALES")
  print(tabulate(listadatos, headers='keys', tablefmt='psql',showindex="never"))
+ print("\nNota: A modo de referencia diaria, el estocástico %K mayor a 80 indicaría dólar muy caro y menor a 20 indicaría dólar barato\n")
 
- for i in range(601):
+ for i in range(481):
 
        page = requests.get(homeurl,headers={"User-Agent":"Mozilla/6.0"})
        time.sleep(1)
@@ -101,7 +102,7 @@ while((hora.hour-5) in range (7,22)):
        banksname=['BCP','INTERBANK','BBVA','SCOTIA','B. DE LA NACION']
        now = datetime.now()
        hora=now.time()
- 
+      
        IST = pytz.timezone('America/Lima') 
        hora2=datetime.now(IST)
        hora2=hora2.strftime('%H:%M:%S')
@@ -299,9 +300,9 @@ while((hora.hour-5) in range (7,22)):
        lista1.COMPRA = lista1.COMPRA.astype(float)
        lista3=lista1.sort_values(by=['COMPRA'], kind="mergesort",ascending=False)
        lista4=lista3.reset_index(level=None, drop=True, inplace=False, col_level=0, col_fill='')
-       lista1.COMPRA = lista3.COMPRA.astype(str)
+       #Lista 4 está ordenado en compra
 
-       print(hora2)
+       lista1.COMPRA = lista3.COMPRA.astype(str)
 
        #Valores máximo de compra y mínimo de venta en este momento
        vminventa = float(ordenado["VENTA"][0])
@@ -309,9 +310,14 @@ while((hora.hour-5) in range (7,22)):
        #print(str(vmaxcompra))
 
        #tabla dataframe en orden
-       antesordenado=ordenado
+       antesordenadov=ordenado[0:5]
+       antesordenadov=antesordenadov.drop(['COMPRA'],axis=1)
+       #print(antesordenadov)
+       antesordenadoc=lista4[0:5]
+       antesordenadoc=antesordenadoc.drop(['VENTA'],axis=1)
+       #print(antesordenadoc)
+
        ordenado=tabulate(ordenado, headers='keys', tablefmt='psql',showindex="never")
-       anteslistab=listab
        listab=tabulate(listab, headers='keys', tablefmt='psql',showindex="never")
        def telegram_bot_sendtext(bot_message):
               bot_token = '5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y'
@@ -321,46 +327,50 @@ while((hora.hour-5) in range (7,22)):
               return response.json()
        
        if valor == 100:
-            valorminstr=str(vminventa)
-            valorminstr2=str(vmaxcompra)
-            mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n  - TC CASAS DE CAMBIO DIGITAL: 5 MEJORES - "
-            mensaje2 = "\n              TC BANCOS              \n"
-            #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
+            
+            mensaje = "HOY: "+dia1+" - EL DOLAR SE COTIZA A:\n\nONLINE COMPRA: "+ str(vmaxcompra)+"\nONLINE VENTA: "+str(vminventa)#+"\n\nPARALELO COMPRA: "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  + "\n  "
+            #mensaje2 = "\n              TC BANCOS              \n"
+            #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" +"\nHora: " + f'```{hora2}```')
             valor=vminventa
-            print(tabulate(antesordenado[0:5], headers='keys', tablefmt='psql',showindex="never"))
+            #print(tabulate(antesordenadov, headers='keys', tablefmt='psql',showindex="never"))
+            #print(tabulate(antesordenadoc, headers='keys', tablefmt='psql',showindex="never"))
+            print(mensaje)  
 
           
-            #print(ordenado)
+            print("Atención Desde de ahora se emitirán mensajes instantáneos para fluctuaciones mayores a S/ 0.005")
        else:
             if vminventa <= valor-0.002:
-                    
+                    per=str(round((1-valor/(vminventa))*100,2))
+                    #print(str(percent)+"%")
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(valor - vminventa,4))
 
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+                    mensaje = "ACTUALIZACION:\nEL TIPO DE CAMBIO HA BAJADO S/ "+ incr +" / "+per+"%"+ "\nONLINE VENTA: " + valorminstr + "\nONLINE COMPRA: " + valorminstr2 #+  "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov
                     #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
                     #print(antesordenado[0:3])
                     valor=vminventa
+                    print(mensaje)
                     
                     
             else:
-                if vminventa >= valor-0.002:
-                                            
+                if vminventa >= valor+0.002:
+                    per=str(round((1-valor/(vminventa))*100,2))
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+                    mensaje = "ACTUALIZACION:\nEL TIPO DE CAMBIO HA SUBIDO S/ "+ incr +" / "+per+"%"+"\nONLINE VENTA: " + valorminstr + "\nONLINE COMPRA: " + valorminstr2 #+"\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov
                     #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
                     valor=vminventa
-                    print(antesordenado[0:3])
+                    print(mensaje)
 
                            
        #api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\n\nSiguenos en Nuestro Canal de Telegram t.me/elcanaldeldolarperu para mayor información")
 
        #600 es 10 minutos
        #60 es 1 minuto
+       print(hora2)
 
        t=60
 
