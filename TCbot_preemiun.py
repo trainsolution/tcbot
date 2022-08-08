@@ -67,14 +67,14 @@ while((hora.hour) in range (0,23)):
 
  listadatos = pd.DataFrame({
                              'PREVIO':option2[0],
-                             'RANGO 52 SEM':new[19][0:4]+"-"+new[20][0:4],
+                             'RANGO 52 SEMANAS':new[19][0:4]+"-"+new[20][0:4],
                              'CAMBIO 5 DIAS': new[17]+"%",
                              'ESTOCASTICO %K': new[13]
                              },index=[0])  
 
  print("DATOS DIARIOS REFERENCIALES")
  print(tabulate(listadatos, headers='keys', tablefmt='psql',showindex="never"))
- print("\nNota: A modo de referencia diaria, el estocástico %K mayor a 80 indicaría dólar muy caro y menor a 20 indicaría dólar barato\n")
+ print("\nNota: A modo de referencia diaria, el estocástico %K mayor a 80 indicaría vender y menor a 20 indicaría comprar\n")
 
  for i in range(481):
 
@@ -82,9 +82,9 @@ while((hora.hour) in range (0,23)):
        time.sleep(1)
        html_soup = BeautifulSoup(page.content,'html.parser')
        
-       #time.sleep(2) - Bloomberg
-       #page2 = requests.get(homeurl2,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
-       #html_soup2 = BeautifulSoup(page2.content,'html.parser')
+       #time.sleep(2) #- Bloomberg
+       page2 = requests.get(homeurl2,headers={'User-Agent': 'Mozilla/7.0' ,  'From': 'ok341@hotmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 17.0 (Win 7 64)',"browserName": "Chrome"})
+       html_soup2 = BeautifulSoup(page2.content,'html.parser')
 
        precioc=[]
        preciov=[]
@@ -275,7 +275,12 @@ while((hora.hour) in range (0,23)):
        del bancotv
        del bancotv2
        
-       
+       #activar en bloomberg
+       elemento2 = html_soup2.find('span', class_= "pricexText__06f600fa3e")
+       time.sleep(2)
+       blc=(elemento2.text)
+       print("\nNuevo Precio bloomberg "+blc)
+
        #filtros y ordenamiento
        filtro = lista1['NOMBRE'] != ""
        lista1 = lista1[filtro]
@@ -286,8 +291,8 @@ while((hora.hour) in range (0,23)):
        lista1 = lista1[filtro3]
        filtro4 = lista1['NOMBRE'] != "Rapidex"
        lista1 = lista1[filtro4]
-       filtro5 = lista1['NOMBRE'] != "Kaspay"
-       lista1 = lista1[filtro5]
+       #filtro5 = lista1['NOMBRE'] != "Kaspay"
+       #lista1 = lista1[filtro5]
        filtro6 = lista1['NOMBRE'] != "Letsbit"
        lista1 = lista1[filtro6]
 
@@ -337,9 +342,9 @@ while((hora.hour) in range (0,23)):
             print(mensaje)  
 
           
-            print("Atención Desde de ahora se emitirán mensajes instantáneos para fluctuaciones mayores a S/ 0.005")
+            print("Atención Desde de ahora se emitirán mensajes instantáneos para fluctuaciones mayores a S/ 0.001")
        else:
-            if vminventa <= valor-0.002:
+            if vminventa <= valor-0.001:
                     per=str(round((1-valor/(vminventa))*100,2))
                     #print(str(percent)+"%")
                     valorminstr=str(vminventa)
@@ -351,10 +356,11 @@ while((hora.hour) in range (0,23)):
                     #print(antesordenado[0:3])
                     valor=vminventa
                     print(mensaje)
-                    
+                    dife=float(valorminstr) - float(valorminstr2)
+                    print("\nEl spread actual es "+(str(round(dife,4))))
                     
             else:
-                if vminventa >= valor+0.002:
+                if vminventa >= valor+0.001:
                     per=str(round((1-valor/(vminventa))*100,2))
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
@@ -364,13 +370,22 @@ while((hora.hour) in range (0,23)):
                     #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
                     valor=vminventa
                     print(mensaje)
+                    dife=float(valorminstr) - float(valorminstr2)
+                    print("\nEl spread actual es "+(str(round(dife,4))))
+
 
                            
        #api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\n\nSiguenos en Nuestro Canal de Telegram t.me/elcanaldeldolarperu para mayor información")
 
        #600 es 10 minutos
        #60 es 1 minuto
+       
+       
        print(hora2)
+       print("Spread online "+str(round(vminventa-vmaxcompra,4)))
+       print("Spread Bloomberg - Venta Mercado "+str(round(float(blc)-vminventa,4)))
+       print("Spread Bloomberg - Compra Mercado "+str(round(float(blc)-vminventa,4)))
+
 
        t=60
 

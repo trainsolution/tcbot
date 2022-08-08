@@ -255,8 +255,8 @@ while((hora.hour) in range (13,20)): #hora horario UTC
        lista1 = lista1[filtro3]
        filtro4 = lista1['NOMBRE'] != "Rapidex"
        lista1 = lista1[filtro4]
-       filtro5 = lista1['NOMBRE'] != "Kaspay"
-       lista1 = lista1[filtro5]
+       #filtro5 = lista1['NOMBRE'] != "Kaspay"
+       #lista1 = lista1[filtro5]
        filtro6 = lista1['NOMBRE'] != "Letsbit"
        lista1 = lista1[filtro6]
 
