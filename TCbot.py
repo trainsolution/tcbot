@@ -342,7 +342,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
        # Create API object
        api = tweepy.API(auth, wait_on_rate_limit=True)
 
-       api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\n\nSiguenos en Nuestro Canal de Telegram t.me/elcanaldeldolarperu para mayor información")
+       api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\n\nNoticias, alertas y cupones exclusivos en t.me/elcanaldeldolarperu ")
 
        del sunatw
        del sunat

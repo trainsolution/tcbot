@@ -83,9 +83,12 @@ while((hora.hour) in range (0,23)):
        html_soup = BeautifulSoup(page.content,'html.parser')
        
        #time.sleep(2) #- Bloomberg
-       page2 = requests.get(homeurl2,headers={'User-Agent': 'Mozilla/7.0' ,  'From': 'ok341@hotmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 17.0 (Win 7 64)',"browserName": "Chrome"})
+       page2 = requests.get(homeurl2,headers={'Host':'www.bloomberg.com','User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0','Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8','Accept-Language':'es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3','Accept-Encoding':'gzip, deflate, br','DNT':'1','Connection':'keep-alive','Upgrade-Insecure-Requests':'1','Sec-Fetch-Dest':'document','Sec-Fetch-Mode':'navigate','Sec-Fetch-Site':'cross-site','TE':'trailers','Referer':'https://www.bloomberg.com/'})
        html_soup2 = BeautifulSoup(page2.content,'html.parser')
-
+       file1 = open("bloomberg.txt", "w") 
+       str1 = str(html_soup2)
+       file1.write("bloomberg = " + str1 + "\n")
+       file1.close()
        precioc=[]
        preciov=[]
        ncasa=[]
