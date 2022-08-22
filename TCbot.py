@@ -289,7 +289,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
               response = requests.get(send_text)
               return response.json()
 
-       mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambias tus dólares en inkamoney.com con el cupón INKADOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
+       mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón INKADOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
 
        if valor == 100:
             valorminstr=str(vminventa)
@@ -308,7 +308,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(valor - vminventa,4))
 
-                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n\n"
+                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n"
                     test = telegram_bot_sendtext(mensaje + "\n" +"\nHora: "+ hora2)
                     urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
 
@@ -322,7 +322,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n\n"
+                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n"
                     test = telegram_bot_sendtext(mensaje + "\n" +"\nHora: "+ hora2)
                     urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
 
