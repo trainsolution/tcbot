@@ -297,7 +297,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
             mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
             #sin mensaje de bancos
             test = telegram_bot_sendtext(mensaje + "\n" + f'```{ordenado}```'+ "\nHora: " + hora2)
-            urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+            #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
             valor=vminventa
             #print(ordenado)
        else:
@@ -309,7 +309,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                     incr = str(round(valor - vminventa,4))
 
                     mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n"
-                    test = telegram_bot_sendtext(mensaje + "\n" +"\nHora: "+ hora2)
+                    test = telegram_bot_sendtext(mensaje +"\nHora: "+ hora2)
                     urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
 
                     valor=vminventa
@@ -323,7 +323,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                     incr = str(round(vminventa -valor,4))
                     
                     mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n"
-                    test = telegram_bot_sendtext(mensaje + "\n" +"\nHora: "+ hora2)
+                    test = telegram_bot_sendtext(mensaje + "\nHora: "+ hora2)
                     urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
 
                     valor=vminventa
