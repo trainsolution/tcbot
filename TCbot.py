@@ -18,6 +18,7 @@ import time
 import pytz
 valor = 100
 import tweepy
+import urllib
 
 homelink=[]
 bancos=[]
@@ -287,37 +288,44 @@ while((hora.hour) in range (13,20)): #hora horario UTC
               send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
               response = requests.get(send_text)
               return response.json()
-       
+
+       mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambias tus dólares en inkamoney.com con el cupón INKADOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
+
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmaxcompra)
             mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  +  "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-            mensaje2 = "\n              TC BANCOS              \n"
-            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+"\nHora: " + f'```{hora2}```')
+            #sin mensaje de bancos
+            test = telegram_bot_sendtext(mensaje + "\n" + f'```{ordenado}```'+ "\nHora: " + hora2)
+            urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
             valor=vminventa
             #print(ordenado)
        else:
             #0.003 para evitar avisos por cambios muy pequeños de precio  
-            if vminventa <= valor-0.01:
+            if vminventa <= valor-0.011:
                     
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(valor - vminventa,4))
 
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA BAJADO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+ f'``{hora2}``')
+                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n\n"
+                    test = telegram_bot_sendtext(mensaje + "\n" +"\nHora: "+ hora2)
+                    urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+
                     valor=vminventa
                     
             else:
-                if vminventa >= valor+0.01:
+                if vminventa >= valor+0.011:
                         
                     
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ACTUALIZACION\nEL P. DE VENTA ONLINE HA SUBIDO S/"+ incr + "\nONLINE VENTA MINIMO ACTUAL: " + valorminstr + "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov +"\n\n     - TC CASAS DE CAMBIO ONLINE -    "
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
+                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n\n"
+                    test = telegram_bot_sendtext(mensaje + "\n" +"\nHora: "+ hora2)
+                    urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+
                     valor=vminventa
        
        
@@ -342,7 +350,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
        # Create API object
        api = tweepy.API(auth, wait_on_rate_limit=True)
 
-       api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\n\nNoticias, alertas y cupones exclusivos en t.me/elcanaldeldolarperu ")
+       api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(vmaxcompra)+"\nVenta: "+str(vminventa)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\nEncuéntranos en Telegram y aprovecha los cupones exclusivos t.me/elcanaldeldolarperu ")
 
        del sunatw
        del sunat
