@@ -294,7 +294,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
        if valor == 100:
             valorminstr=str(vminventa)
             valorminstr2=str(vmaxcompra)
-            mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  + + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
+            mensaje = "EL DOLAR SE COTIZA A:\nPARALELO COMPRA "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n\n     - TC CASAS DE CAMBIO ONLINE -    "
             #sin mensaje de bancos
             test = telegram_bot_sendtext(f'```{mensaje}```' + "\n" + f'```{ordenado}```'+ "\nHora: " + hora2)
             #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
@@ -322,7 +322,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(vminventa -valor,4))
                     
-                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr + "\n"
+                    mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nONLINE COMPRA: " + valorminstr2+ "\nONLINE VENTA: " + valorminstr + "\n"
                     test = telegram_bot_sendtext(mensaje + "\nHora: "+ hora2)
                     urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
 
