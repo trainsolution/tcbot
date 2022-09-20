@@ -335,19 +335,19 @@ while((hora.hour) in range (0,23)):
               return response.json()
        
        if valor == 100:
-            
+            alerta="Atención Desde de ahora se emitirán mensajes instantáneos para fluctuaciones mayores a S/ 0.001"
             mensaje = "HOY: "+dia1+" - EL DOLAR SE COTIZA A:\n\nONLINE COMPRA: "+ str(vmaxcompra)+"\nONLINE VENTA: "+str(vminventa)#+"\n\nPARALELO COMPRA: "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  + "\n  "
             #mensaje2 = "\n              TC BANCOS              \n"
-            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" +"\nHora: " + f'```{hora2}```')
+            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n"+f'`{alerta}`')
             valor=vminventa
             #print(tabulate(antesordenadov, headers='keys', tablefmt='psql',showindex="never"))
             #print(tabulate(antesordenadoc, headers='keys', tablefmt='psql',showindex="never"))
+
             print(mensaje)  
 
-          
-            print("Atención Desde de ahora se emitirán mensajes instantáneos para fluctuaciones mayores a S/ 0.001")
+
        else:
-            if vminventa <= valor-0.001:
+            if vminventa <= valor-0.002:
                     per=str(round((1-valor/(vminventa))*100,2))
                     #print(str(percent)+"%")
                     valorminstr=str(vminventa)
@@ -355,7 +355,7 @@ while((hora.hour) in range (0,23)):
                     incr = str(round(valor - vminventa,4))
 
                     mensaje = "ACTUALIZACION:\nEL TIPO DE CAMBIO HA BAJADO S/ "+ incr +" / "+per+"%"+ "\nONLINE VENTA: " + valorminstr + "\nONLINE COMPRA: " + valorminstr2 #+  "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+f'`{mensaje2}`'+f'```{listab}```'+ "\nHora: "+ f'``{hora2}``')
+                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```')
                     #print(antesordenado[0:3])
                     valor=vminventa
                     print(mensaje)
@@ -363,14 +363,14 @@ while((hora.hour) in range (0,23)):
                     print("\nEl spread actual es "+(str(round(dife,4))))
                     
             else:
-                if vminventa >= valor+0.001:
+                if vminventa >= valor+0.002:
                     per=str(round((1-valor/(vminventa))*100,2))
                     valorminstr=str(vminventa)
                     valorminstr2=str(vmaxcompra)
                     incr = str(round(vminventa -valor,4))
                     
                     mensaje = "ACTUALIZACION:\nEL TIPO DE CAMBIO HA SUBIDO S/ "+ incr +" / "+per+"%"+"\nONLINE VENTA: " + valorminstr + "\nONLINE COMPRA: " + valorminstr2 #+"\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```'+"\nHora: "+f'``{hora2}``')
+                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" + f'```{ordenado}```')
                     valor=vminventa
                     print(mensaje)
                     dife=float(valorminstr) - float(valorminstr2)
