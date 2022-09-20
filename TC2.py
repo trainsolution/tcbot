@@ -13,7 +13,6 @@ import pytz
 valor = 100
 import tweepy
 import urllib
-import re
 
 from datetime import date, datetime
 now = datetime.now()
@@ -66,6 +65,10 @@ while((hora.hour) in range (13,20)): #hora horario UTC
 
 
         ##################ORDENAMIENTO
+
+        paraleloc=option2[1]
+        paralelov=option3[1]
+
         option2.pop(0)
         option2.pop(0)
         option2.pop(0)
@@ -125,5 +128,20 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         del listav
         del listac
         t=3600
+
         time.sleep(t)
+
+        auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
+       
+        api = tweepy.API(auth)
+        try:
+              api.verify_credentials()
+              print("Authentication OK")
+        except:
+              print("Error during authentication")
+
+        # Create API object
+        api = tweepy.API(auth, wait_on_rate_limit=True)
+
+        api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(valorminstr2)+"\nVenta: "+str(valorminstr)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\nEncuéntranos en Telegram y aprovecha los cupones exclusivos t.me/elcanaldeldolarperu ")
 
