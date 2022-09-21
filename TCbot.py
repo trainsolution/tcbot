@@ -27,12 +27,27 @@ valor=100
 
 homeurl = "https://cuantoestaeldolar.pe/"
 
-while((hora.hour) in range (13,20)): #hora horario UTC
+
+
+
+#print("List before calling remove() function:")
+#print(listo)
+
+#listo=list(set(listo))
+
+#print("List after calling remove() function:")
+#print(listo)
+
+
+while((hora.hour) in range (8,20)): #hora horario UTC
 
 
     for i in range(8):
         option2=[]
         option3=[]
+        resultado=[]
+        resultado2=[]
+
 
         page = requests.get(homeurl,headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"})
         html_soup1n = BeautifulSoup(page.content,'html.parser')
@@ -74,11 +89,21 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         option2.pop(0)
         listac=sorted(option2[0:24])
         
-  
+        for i in listac:
+                if(i) > '1':
+                        resultado.append(i)
+        print(resultado)
+                
         option3.pop(0)
         option3.pop(0)
         option3.pop(0)
         listav=sorted(option3[0:24])
+
+        for i in listav:
+                if(i) > '1':
+                        resultado2.append(i)
+        print(resultado2)
+
         ########################################LOGICA DE ENVIO
 
         def telegram_bot_sendtext(bot_message):
@@ -88,8 +113,8 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                     response = requests.get(send_text)
                     return response.json()
         
-        valorminstr=float(listav[0])
-        valorminstr2=float(listac.pop())
+        valorminstr=float(resultado2[0])
+        valorminstr2=float(resultado.pop())
         mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón INKADOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
 
 
@@ -97,8 +122,8 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         if valor == 100:
                 
                     mensaje = "HOY: "+dia1+" - EL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n\n"
-                    test = telegram_bot_sendtext(f'```{mensaje}```' + "\n")
-                    urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+                    #test = telegram_bot_sendtext(f'```{mensaje}```' + "\n")
+                    #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                     valor=valorminstr
                     print(mensaje)
         else:
@@ -109,8 +134,8 @@ while((hora.hour) in range (13,20)): #hora horario UTC
 
                             mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n"
                             print(mensaje)
-                            test = telegram_bot_sendtext(mensaje)
-                            urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+                            #test = telegram_bot_sendtext(mensaje)
+                            #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                             valor=valorminstr
                             
                     else:
@@ -119,7 +144,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                             incr = str(round(valorminstr -valor,4))
                             
                             mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+ "\nVENTA: " + str(valorminstr) + "\n"
-                            test = telegram_bot_sendtext(mensaje)
+                            #test = telegram_bot_sendtext(mensaje)
                             #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                             print(mensaje)
                             valor=valorminstr
@@ -130,7 +155,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         t=3600
 
         time.sleep(t)
-
+        """
         auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
        
         api = tweepy.API(auth)
@@ -145,3 +170,4 @@ while((hora.hour) in range (13,20)): #hora horario UTC
 
         api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(valorminstr2)+"\nVenta: "+str(valorminstr)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\nEncuéntranos en Telegram y aprovecha los cupones exclusivos t.me/elcanaldeldolarperu ")
 
+        """
