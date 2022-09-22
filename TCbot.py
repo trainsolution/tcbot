@@ -19,6 +19,8 @@ now = datetime.now()
 dia=now.date()
 hora=now.time()
 dia1=dia.strftime('%d/%m/%Y')
+IST = pytz.timezone('America/Lima') 
+
 
 
 valor=100
@@ -39,7 +41,7 @@ homeurl = "https://cuantoestaeldolar.pe/"
 #print(listo)
 
 
-while((hora.hour) in range (8,20)): #hora horario UTC
+while((hora.hour) in range (7,20)): #hora horario UTC
 
 
     for i in range(8):
@@ -47,6 +49,8 @@ while((hora.hour) in range (8,20)): #hora horario UTC
         option3=[]
         resultado=[]
         resultado2=[]
+        hora2=datetime.now(IST)
+        hora2=hora2.strftime('%H:%M:%S')
 
 
         page = requests.get(homeurl,headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"})
@@ -92,7 +96,7 @@ while((hora.hour) in range (8,20)): #hora horario UTC
         for i in listac:
                 if(i) > '1':
                         resultado.append(i)
-        print(resultado)
+        #print(resultado)
                 
         option3.pop(0)
         option3.pop(0)
@@ -102,7 +106,7 @@ while((hora.hour) in range (8,20)): #hora horario UTC
         for i in listav:
                 if(i) > '1':
                         resultado2.append(i)
-        print(resultado2)
+        #print(resultado2)
 
         ########################################LOGICA DE ENVIO
 
@@ -121,8 +125,8 @@ while((hora.hour) in range (8,20)): #hora horario UTC
 
         if valor == 100:
                 
-                    mensaje = "HOY: "+dia1+" - EL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n\n"
-                    test = telegram_bot_sendtext(f'```{mensaje}```' + "\n")
+                    mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n\n"
+                    test = telegram_bot_sendtext(mensaje)
                     #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                     valor=valorminstr
                     print(mensaje)
@@ -132,9 +136,9 @@ while((hora.hour) in range (8,20)): #hora horario UTC
                             
                             incr = str(round(valor - valorminstr,4))
 
-                            mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n"
+                            mensaje = "ACTUALIZACION!"+ hora2 +"\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n"
                             print(mensaje)
-                            test = telegram_bot_sendtext(mensaje)
+                            #test = telegram_bot_sendtext(mensaje)
                             urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                             valor=valorminstr
                             
@@ -143,9 +147,9 @@ while((hora.hour) in range (8,20)): #hora horario UTC
                                 
                             incr = str(round(valorminstr -valor,4))
                             
-                            mensaje = "ACTUALIZACION!\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+ "\nVENTA: " + str(valorminstr) + "\n"
-                            test = telegram_bot_sendtext(mensaje)
-                            #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+                            mensaje = "ACTUALIZACION!"+ hora2 +"\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+ "\nVENTA: " + str(valorminstr) + "\n"
+                            #test = telegram_bot_sendtext(mensaje)
+                            urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                             print(mensaje)
                             valor=valorminstr
         del option2
