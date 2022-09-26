@@ -338,7 +338,7 @@ while((hora.hour) in range (0,23)):
             alerta="A partir de ahora se emitirán mensajes instantáneos para fluctuaciones mayores a S/ 0.002 en el TC"
             mensaje = "HOY: "+dia1+" - EL DOLAR SE COTIZA A:\n\nONLINE COMPRA: "+ str(vmaxcompra)+"\nONLINE VENTA: "+str(vminventa)#+"\n\nPARALELO COMPRA: "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  + "\n  "
             #mensaje2 = "\n              TC BANCOS              \n"
-            test = telegram_bot_sendtext(f'`{mensaje}`' + "\n"+f'`{alerta}`')
+            #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n"+f'`{alerta}`')
             valor=vminventa
             #print(tabulate(antesordenadov, headers='keys', tablefmt='psql',showindex="never"))
             #print(tabulate(antesordenadoc, headers='keys', tablefmt='psql',showindex="never"))
@@ -355,7 +355,7 @@ while((hora.hour) in range (0,23)):
                     incr = str(round(valor - vminventa,4))
 
                     mensaje = "ACTUALIZACION:\nEL TC HA BAJADO S/ "+ incr +" / "+per+"%"+ "\nONLINE COMPRA: " + valorminstr2+ "\nONLINE VENTA: " + valorminstr  #+  "\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+  paralelov
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n")
+                    #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n")
                     #print(antesordenado[0:3])
                     valor=vminventa
                     print(mensaje)
@@ -370,7 +370,7 @@ while((hora.hour) in range (0,23)):
                     incr = str(round(vminventa -valor,4))
                     
                     mensaje = "ACTUALIZACION:\nEL TC HA SUBIDO S/ "+ incr +" / "+per+"%"+ "\nONLINE COMPRA: " + valorminstr2+"\nONLINE VENTA: " + valorminstr #+"\n\nPARALELO COMPRA "+ paraleloc+"\nPARALELO VENTA: "+ paralelov
-                    test = telegram_bot_sendtext(f'`{mensaje}`' + "\n")
+                    #test = telegram_bot_sendtext(f'`{mensaje}`' + "\n")
                     valor=vminventa
                     print(mensaje)
                     dife=float(valorminstr) - float(valorminstr2)

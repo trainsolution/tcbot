@@ -31,18 +31,7 @@ valor=100
 homeurl = "https://cuantoestaeldolar.pe/"
 
 
-
-
-#print("List before calling remove() function:")
-#print(listo)
-
-#listo=list(set(listo))
-
-#print("List after calling remove() function:")
-#print(listo)
-
-
-while((hora.hour) in range (7,20)): #hora horario UTC
+while((hora.hour) in range (7,24)): #hora horario UTC
 
 
     for i in range(8):
@@ -59,6 +48,7 @@ while((hora.hour) in range (7,20)): #hora horario UTC
 
         #matriz compra (3 primeros paralelo)
         elemento = html_soup1n.find_all('div', class_= "block pl-[8px]") 
+
         for var in elemento:
                 new = var.find('p', class_="ValueQuotation_text___mR_0")
                 if new:
@@ -76,38 +66,64 @@ while((hora.hour) in range (7,20)): #hora horario UTC
                 else:    option3.append('')
 
         #matriz nombre      
-        #elemento = html_soup1n.find_all('div', class_= "w-[90px] md:w-36 h-auto flex align-middle justify-center") 
-        #for var in elemento:   
-        #        str_match = re.findall(r'(\w*)(.svg)',str(elemento))
-        #print(str_match)
-        #for i in range (22):
-        #  print(str_match[4+6*i])   
+        elemento = html_soup1n.find_all('div', class_= "w-[90px] md:w-36 h-auto flex align-middle justify-center") 
+        for var in elemento:   
+                str_match = re.findall(r'(\w*)(.svg|.png)',str(elemento))
+                df = pd.DataFrame(str_match, columns = ['Names','Data'])
+
+        filtro = df['Names'] != "image"
+        df=df[filtro]
+
+        filtro = df['Names'] != "3"
+        df=df[filtro]
+
+        filtro = df['Names'] != "2000"
+        df=df[filtro]
 
 
-        ##################ORDENAMIENTO
+        df=df.drop_duplicates()
+        df.reset_index(drop=True,inplace=True)
 
+        
+        df.Names.replace({"v2": "Dollar House", "cambiafx_v2": "CambiaFx","2": "Securex","capital": "VipCapital","instakash_v2": "Instakash","union": "Western Union"},inplace=True)      
+        ind = df[df.duplicated('Names')].index[0]
+        df.Names[ind]="HayCambio"
+        df.Names.replace({"cambio": "SrCambio"},inplace=True)      
+
+
+        ##################ORDENAMIENTO DE LISTAS Y DATAFRAMES
+        # Dolar paralelo
         paraleloc=option2[1]
         paralelov=option3[1]
 
+        # Eliminar dolar paralelo de la tabla
         option2.pop(0)
         option2.pop(0)
         option2.pop(0)
+        option3.pop(0)
+        option3.pop(0)
+        option3.pop(0)
+
+        #conversion a Dataframe de las listas         
+        dfc = pd.DataFrame(option2[0:23], columns = ['Compra'])
+        dfv = pd.DataFrame(option3[0:23], columns = ['Venta'])
+        #union de Dataframes
+        dft=pd.concat([df, dfc, dfv], axis=1)
+        print(dft)
+
+        #Seleccion de valores mayores a 1 en las listas
         listac=sorted(option2[0:24])
         
         for i in listac:
                 if(i) > '1':
                         resultado.append(i)
-        #print(resultado)
                 
-        option3.pop(0)
-        option3.pop(0)
-        option3.pop(0)
+
         listav=sorted(option3[0:24])
 
         for i in listav:
                 if(i) > '1':
                         resultado2.append(i)
-        #print(resultado2)
 
         ########################################LOGICA DE ENVIO
 
@@ -126,8 +142,8 @@ while((hora.hour) in range (7,20)): #hora horario UTC
 
         if valor == 100:
                 
-                    mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n\n"
-                    test = telegram_bot_sendtext(mensaje)
+                    mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n\n"
+                    #test = telegram_bot_sendtext(mensaje)
                     #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                     valor=valorminstr
                     print(mensaje)
@@ -137,10 +153,10 @@ while((hora.hour) in range (7,20)): #hora horario UTC
                             
                             incr = str(round(valor - valorminstr,4))
 
-                            mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n"
+                            mensaje = "ACTUALIZACION!"+ hora2 +"\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n"
                             print(mensaje)
-                            test = telegram_bot_sendtext(mensaje)
-                            urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+                            #test = telegram_bot_sendtext(mensaje)
+                            #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                             valor=valorminstr
                             
                     else:
@@ -148,9 +164,9 @@ while((hora.hour) in range (7,20)): #hora horario UTC
                                 
                             incr = str(round(valorminstr -valor,4))
                             
-                            mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+ "\nVENTA: " + str(valorminstr) + "\n"
-                            test = telegram_bot_sendtext(mensaje)
-                            urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+                            mensaje = "ACTUALIZACION!"+ hora2 +"\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(valorminstr2)+ "\nVENTA: " + str(valorminstr) + "\n"
+                            #test = telegram_bot_sendtext(mensaje)
+                            #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                             print(mensaje)
                             valor=valorminstr
         del option2
@@ -161,7 +177,7 @@ while((hora.hour) in range (7,20)): #hora horario UTC
 
         time.sleep(t)
         
-        auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
+"""        auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
        
         api = tweepy.API(auth)
         try:
@@ -174,5 +190,5 @@ while((hora.hour) in range (7,20)): #hora horario UTC
         api = tweepy.API(auth, wait_on_rate_limit=True)
 
         api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(valorminstr2)+"\nVenta: "+str(valorminstr)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\nEncuéntranos en Telegram y aprovecha los cupones exclusivos t.me/elcanaldeldolarperu ")
-
+"""
         
