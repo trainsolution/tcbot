@@ -42,7 +42,7 @@ homeurl = "https://cuantoestaeldolar.pe/"
 #print(listo)
 
 
-while((hora.hour) in range (7,20)): #hora horario UTC
+while((hora.hour) in range (13,20)): #hora horario UTC
 
 
     for i in range(8):
