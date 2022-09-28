@@ -27,7 +27,20 @@ valor=100
 #####BUSQUEDA DE DATOS
 
 homeurl = "https://cuantoestaeldolar.pe/"
+homeurl2= "https://www.barchart.com/forex/quotes/%5EUSDPEN"
 
+#Barchart 2: Recomendación pagina principal
+page3n = requests.get(homeurl2,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
+html_soup3n = BeautifulSoup(page3n.content,'html.parser')  
+elemento = html_soup3n.find('div', class_="bc-quote-overview row")# Cuadrito de datos pequeños
+new = re.findall("(\d*\.\d+|\d+.\d*)",str(elemento))  
+
+
+listadatos = pd.DataFrame({
+                             'CIERRE PREVIO':round(float(new[9]),3),
+                             'RANGO 52 SEMANAS':new[19][0:4]+"-"+new[20][0:4],
+                             },index=[0])  
+print(listadatos)
 
 while((hora.hour) in range (13,20)): #hora horario UTC
 
@@ -143,12 +156,13 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         valorminstr2=float(resultado.pop())
         mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón INKADOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
         mensajeinicial="Se enviarán mensajes de actualizaciones por cada fluctuación de S/ 0.05 en el TC"
+        ordenado=tabulate(listadatos, headers='keys', tablefmt='psql',showindex="never")
 
 
         if valor == 100:
                 
-                    mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n"+mensajeinicial+"\n"
-                    test = telegram_bot_sendtext(mensaje)
+                    mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(valorminstr2)+"\nVENTA: " + str(valorminstr) + "\n\n"
+                    test = telegram_bot_sendtext(mensaje+f'`{ordenado}`'+"\n" +mensajeinicial)
                     #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                     valor=valorminstr
                     print(mensaje)
