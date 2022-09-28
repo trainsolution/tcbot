@@ -37,8 +37,8 @@ new = re.findall("(\d*\.\d+|\d+.\d*)",str(elemento))
 
 
 listadatos = pd.DataFrame({
-                             'CIERRE PREVIO':round(float(new[9]),3),
-                             'RANGO 52 SEMANAS':new[19][0:4]+"-"+new[20][0:4],
+                             'CIERRE DE AYER':round(float(new[9]),3),
+                             'RANGO ULTIMAS 52 SEMANAS (1 AÑO)':new[19][0:4]+"-"+new[20][0:4],
                              },index=[0])  
 print(listadatos)
 
