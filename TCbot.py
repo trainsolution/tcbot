@@ -18,8 +18,7 @@ dia=now.date()
 hora=now.time()
 dia1=dia.strftime('%d/%m/%Y')
 IST = pytz.timezone('America/Lima') 
-t=3
-valor=100
+t=3600
 
 #####FUNCION BUSQUEDA DE DATOS
 
@@ -73,7 +72,21 @@ def scrap(homeurl):
                  del option3
                  del listav
                  del listac
-                 
+##################### FUNCION DEL TWEET
+
+def twt(c,v):
+        auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
+        api = tweepy.API(auth)
+        try:
+                api.verify_credentials()
+                print("Authentication OK")
+        except:
+                print("Error during authentication")
+
+        # Create API object
+        api = tweepy.API(auth, wait_on_rate_limit=True)
+        mensaje="El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(c)+"\nVenta: "+str(v)+"\n\nEncuéntranos en Telegram y aprovecha los cupones exclusivos t.me/elcanaldeldolarperu "
+        return api.update_status(mensaje)
 
 
 ########################################LOGICA DE TELEGRAM
@@ -98,6 +111,7 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                 #test = telegram_bot_sendtext(mensaje+mensajeALT)
                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                 valor=b[1]
+                twt(b[0],b[1])
                 print(mensaje)
                 
                 time.sleep(t)
@@ -117,6 +131,7 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                                 #test = telegram_bot_sendtext(mensaje)
                                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                 valor=str(b[1])
+                                twt(b[0],b[1])
                                 
                         else:
                                 if b[1] >= valor+0.011:
@@ -127,22 +142,10 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                                         #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                         print(mensaje)
                                         valor=b[1]
+                                        twt(b[0],b[1])
                         time.sleep(t)
                 print(i)
                 break
 
-"""  
-auth = tweepy.OAuth1UserHandler("Nx0020RxPlgTj6BSiRuPtXy5z", "sDJLjKxYXsVpC1nidfOeaJAdOB52F2ou6LG4wb3IupqePrdoRj","1527368196595953674-pDBuVvwRd1PZ4CssI8Fs9pqviFB8Tp", "0rMlsyMawwDtP8GsnM45zrXlyXrbquuduPXF0yUDkZdfi")
-api = tweepy.API(auth)
-try:
-        api.verify_credentials()
-        print("Authentication OK")
-except:
-        print("Error during authentication")
 
-# Create API object
-api = tweepy.API(auth, wait_on_rate_limit=True)
-api.update_status("El tipo de cambio Perú se cotiza a:\n\nDolár online S/:\nCompra: "+str(valorminstr2)+"\nVenta: "+str(valorminstr)+"\n\nDólar paralelo S/:\nCompra: "+paraleloc+"\nVenta: "+paralelov+"\nEncuéntranos en Telegram y aprovecha los cupones exclusivos t.me/elcanaldeldolarperu ")
-
-"""
                 
