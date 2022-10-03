@@ -337,7 +337,7 @@ while((hora.hour) in range (0,23)):
        if valor == 100:
             
             mensaje = "HOY: "+dia1+" - EL DOLAR SE COTIZA A:\n\nONLINE COMPRA: "+ str(vmaxcompra)+"\nONLINE VENTA: "+str(vminventa)#+"\n\nPARALELO COMPRA: "+ paraleloc +"\nPARELELO VENTA: "+ paralelov  + "\n  "
-            #mensaje2 = "\n              TC BANCOS              \n"
+            mensaje2 = "\n              TC BANCOS              \n"
             test = telegram_bot_sendtext(f'`{mensaje}`' + "\n" +"\nHora: " + f'```{hora2}```')
             valor=vminventa
             #print(tabulate(antesordenadov, headers='keys', tablefmt='psql',showindex="never"))
