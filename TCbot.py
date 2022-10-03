@@ -108,11 +108,11 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                 mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón CANALDOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
                 mensajeALT="Enviaremos actualizaciones del TC en fluctuaciones mayores a S/ 0.01"
                 mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\nCOMPRA: " + str(b[0])+"\nVENTA: " + str(b[1]) + "\n\n"
-                #test = telegram_bot_sendtext(mensaje+mensajeALT)
+                test = telegram_bot_sendtext(mensaje+mensajeALT)
                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                 valor=b[1]
                 twt(b[0],b[1])
-                print(mensaje)
+                #print(mensaje)
                 
                 time.sleep(t)
                 
@@ -127,8 +127,8 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                                 incr = str(round(valor - b[1],4))
 
                                 mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(b[0])+"\nVENTA: " + str(b[1]) + "\n"
-                                print(mensaje)
-                                #test = telegram_bot_sendtext(mensaje)
+                                #print(mensaje)
+                                test = telegram_bot_sendtext(mensaje)
                                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                 valor=str(b[1])
                                 twt(b[0],b[1])
@@ -138,7 +138,7 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                                         
                                         incr = str(round(b[1] -valor,4))
                                         mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(b[0])+ "\nVENTA: " + str(b[1]) + "\n"
-                                        #test = telegram_bot_sendtext(mensaje)
+                                        test = telegram_bot_sendtext(mensaje)
                                         #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                         print(mensaje)
                                         valor=b[1]
