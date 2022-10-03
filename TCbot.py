@@ -132,8 +132,8 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                                 #print(mensaje)
                                 test = telegram_bot_sendtext(mensaje)
                                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
-                                valor=str(b[0])
-                                twt(b[0],b[1])
+                                valor=b[0]
+                                twt(b[1],b[0])
                                 
                         else:
                                 if b[0] >= valor+0.011:
@@ -144,7 +144,7 @@ while((hora.hour) in range (13,24)): #hora horario UTC
                                         #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                         print(mensaje)
                                         valor=b[0]
-                                        twt(b[0],b[1])
+                                        twt(b[1],b[0])
                         time.sleep(t)
                 print(i)
                 break
