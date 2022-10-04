@@ -149,7 +149,7 @@ def nombres(h):
                  dft2=dft.sort_values(by=['Venta'], kind="mergesort",ascending=True)
                  dft.Venta = dft.Venta.astype(str)
                  
-                 print(dft2)
+                 #print(dft2)
 
                  filtro = dft2['Compra'] != "0.000"
                  dft2 = dft2[filtro]
@@ -205,37 +205,37 @@ while((hora.hour) in range (0,24)): #hora horario UTC
                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                 valor=b[0]
                 #twt(b[1],b[0])
-                #print(mensaje)
+                print(mensaje)
                 
                 time.sleep(t)
                 
-                for i in range(8):
+                for i in range(480):
                         b=scrap(homeurl)
                         hora2=datetime.now(IST)
                         hora2=hora2.strftime('%H:%M:%S')
 
                         #0.011 para evitar avisos por cambios muy pequeños de precio  
-                        if b[0] <= valor-0.011:
+                        if b[0] <= valor-0.005:
                                 
                                 incr = str(round(valor - b[0],4))
 
                                 mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA BAJADO S/ "+ incr + "\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n"
-                                #print(mensaje)
-                                test = telegram_bot_sendtext(mensaje)
+                                print(mensaje)
+                                #test = telegram_bot_sendtext(mensaje)
                                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                 valor=b[0]
-                                twt(b[1],b[0])
+                                #twt(b[1],b[0])
                                 
                         else:
-                                if b[0] >= valor+0.011:
+                                if b[0] >= valor+0.005:
                                         
                                         incr = str(round(b[0] -valor,4))
                                         mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(b[1])+ "\nVENTA: " + str(b[0]) + "\n"
-                                        test = telegram_bot_sendtext(mensaje)
+                                        #test = telegram_bot_sendtext(mensaje)
                                         #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                                         print(mensaje)
                                         valor=b[0]
-                                        twt(b[1],b[0])
+                                        #twt(b[1],b[0])
                         time.sleep(t)
                 print(i)
                 break
