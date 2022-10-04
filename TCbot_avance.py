@@ -18,7 +18,7 @@ dia=now.date()
 hora=now.time()
 dia1=dia.strftime('%d/%m/%Y')
 IST = pytz.timezone('America/Lima') 
-t=3600
+t=60
 
 #####FUNCION BUSQUEDA DE DATOS
 
@@ -66,12 +66,101 @@ def scrap(homeurl):
 
                  valorminstr=float(resultado2[0])
                  valorminstr2=float(resultado.pop())
+
+                 
                  return valorminstr,valorminstr2
 
                  del option2
                  del option3
                  del listav
                  del listac
+
+def nombres(h):
+                 
+                 #matriz nombre   
+                 option2=[]
+                 option3=[]
+                 resultado=[]
+                 resultado2=[]
+                 
+                 page = requests.get(h,headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"})
+                 html_soup1n = BeautifulSoup(page.content,'html.parser')  
+
+                         #matriz compra (3 primeros paralelo)
+                 elemento = html_soup1n.find_all('div', class_=  "block mx-2 w-[46px] md:w-[60px] block mx-2 w-[60px]") 
+
+                 for var in elemento:
+                        new = var.find('p', class_="ValueQuotation_text___mR_0")
+                        if new:
+                                        option2.append(new.text)
+
+                        else:    option2.append('')
+                         
+
+                    #matriz venta (3 primeros paralelo)
+                 elemento = html_soup1n.find_all('div', class_= "block mx-2 w-[46px] md:w-[60px] mx-2 w-[60px]") 
+                 for var in elemento:
+                            new = var.find('p', class_="ValueQuotation_text___mR_0")
+                            if new:
+                                            option3.append(new.text)
+
+                            else:    option3.append('')
+
+                 elemento = html_soup1n.find_all('div', class_= "w-[90px] md:w-36 h-auto flex align-middle justify-center") 
+                 for var in elemento:   
+                        str_match = re.findall(r'(\w*)(.svg|.png)',str(elemento))
+                        df = pd.DataFrame(str_match, columns = ['Names','Data'])
+
+                 filtro = df['Names'] != "image"
+                 df=df[filtro]
+
+                 filtro = df['Names'] != "3"
+                 df=df[filtro]
+
+                 filtro = df['Names'] != "2000"
+                 df=df[filtro]
+
+                 df=df.drop_duplicates()
+                 df.reset_index(drop=True,inplace=True)
+
+                
+                 df.Names.replace({"v2": "Dollar House", "cambiafx_v2": "CambiaFx","2": "Securex","capital": "VipCapital","instakash_v2": "Instakash","union": "Western Union"},inplace=True)      
+                 ind = df[df.duplicated('Names')].index[0]
+                 df.Names[ind]="HayCambio"
+                 df.Names.replace({"cambio": "SrCambio","adol":"Adolfo Exchange"},inplace=True) 
+                 
+                 # Eliminar dolar paralelo de la tabla
+                 #option2.pop(0)
+                 #option2.pop(0)
+                 #option2.pop(0)
+                 #option3.pop(0)
+                 #option3.pop(0)
+                 #option3.pop(0)
+
+
+
+                 #conversion a Dataframe de las listas         
+                 dfc = pd.DataFrame(option2[0:25], columns = ['Compra'])
+                 dfv = pd.DataFrame(option3[0:25], columns = ['Venta'])
+                 #union de Dataframes
+                 dft=pd.concat([df, dfc, dfv], axis=1)
+                         
+                 dft.Venta = dft.Venta.astype(float)
+                 dft2=dft.sort_values(by=['Venta'], kind="mergesort",ascending=True)
+                 dft.Venta = dft.Venta.astype(str)
+                 
+                 print(dft2)
+
+                 filtro = dft2['Compra'] != "0.000"
+                 dft2 = dft2[filtro]
+
+                 filtro = dft2['Compra'] != "0.0000"
+                 dft2 = dft2[filtro]
+
+                 filtro = dft2['Compra'] != "0"
+                 dft2 = dft2[filtro]
+
+                 return dft2
 ##################### FUNCION DEL TWEET
 
 def twt(c,v):
@@ -93,27 +182,29 @@ def twt(c,v):
 
 def telegram_bot_sendtext(bot_message):
                         bot_token = '5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y'
-                        bot_chatID = '-1001791296695'
+                        bot_chatID = '811650091'
                         send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
                         response = requests.get(send_text)
                         return response.json()
          
 ########################################LOGICA DE ENVIO
 
-while((hora.hour) in range (13,24)): #hora horario UTC
+while((hora.hour) in range (0,24)): #hora horario UTC
        
                 homeurl = "https://cuantoestaeldolar.pe/"
                 b=[]
                 b=scrap(homeurl)
+                n=nombres(homeurl)
                 print(b)
+                print(n)
 
                 mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón CANALDOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
-                mensajeALT="Actualizaciones del TC a partir de fluctuaciones mayores a S/ 0.01"
+                mensajeALT="Enviaremos actualizaciones del TC en fluctuaciones mayores a S/ 0.01"
                 mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n\n"
                 test = telegram_bot_sendtext(mensaje+mensajeALT)
                 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
                 valor=b[0]
-                twt(b[1],b[0])
+                #twt(b[1],b[0])
                 #print(mensaje)
                 
                 time.sleep(t)

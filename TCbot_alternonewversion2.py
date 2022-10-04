@@ -42,7 +42,7 @@ listadatos = pd.DataFrame({
                              },index=[0])  
 print(listadatos)
 
-while((hora.hour) in range (13,20)): #hora horario UTC
+while((hora.hour) in range (0,24)): #hora horario UTC
 
 
     for i in range(8):
@@ -58,7 +58,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         html_soup1n = BeautifulSoup(page.content,'html.parser')
 
         #matriz compra (3 primeros paralelo)
-        elemento = html_soup1n.find_all('div', class_= "block pl-[8px]") 
+        elemento = html_soup1n.find_all('div', class_= "block mx-2 w-[46px] md:w-[60px] block mx-2 w-[60px]") 
 
         for var in elemento:
                 new = var.find('p', class_="ValueQuotation_text___mR_0")
@@ -66,9 +66,9 @@ while((hora.hour) in range (13,20)): #hora horario UTC
                                 option2.append(new.text)
 
                 else:    option2.append('')
-
+        print(option2)
         #matriz venta (3 primeros paralelo)
-        elemento = html_soup1n.find_all('div', class_= "block pl-[10px]") 
+        elemento = html_soup1n.find_all('div', class_=  "block mx-2 w-[46px] md:w-[60px] mx-2 w-[60px]") 
         for var in elemento:
                 new = var.find('p', class_="ValueQuotation_text___mR_0")
                 if new:
@@ -91,7 +91,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         filtro = df['Names'] != "2000"
         df=df[filtro]
 
-
+    
         df=df.drop_duplicates()
         df.reset_index(drop=True,inplace=True)
 
@@ -99,25 +99,25 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         df.Names.replace({"v2": "Dollar House", "cambiafx_v2": "CambiaFx","2": "Securex","capital": "VipCapital","instakash_v2": "Instakash","union": "Western Union"},inplace=True)      
         ind = df[df.duplicated('Names')].index[0]
         df.Names[ind]="HayCambio"
-        df.Names.replace({"cambio": "SrCambio"},inplace=True)      
+        df.Names.replace({"cambio": "SrCambio","adol":"Adolfo Exchange"},inplace=True)   
 
 
         ##################ORDENAMIENTO DE LISTAS Y DATAFRAMES
         # Dolar paralelo
-        paraleloc=option2[1]
-        paralelov=option3[1]
+        #paraleloc=option2[1]
+        #paralelov=option3[1]
 
         # Eliminar dolar paralelo de la tabla
-        option2.pop(0)
-        option2.pop(0)
-        option2.pop(0)
-        option3.pop(0)
-        option3.pop(0)
-        option3.pop(0)
+        #option2.pop(0)
+        #option2.pop(0)
+        #option2.pop(0)
+        #option3.pop(0)
+        #option3.pop(0)
+        #option3.pop(0)
 
         #conversion a Dataframe de las listas         
-        dfc = pd.DataFrame(option2[0:24], columns = ['Compra'])
-        dfv = pd.DataFrame(option3[0:24], columns = ['Venta'])
+        dfc = pd.DataFrame(option2[0:25], columns = ['Compra'])
+        dfv = pd.DataFrame(option3[0:25], columns = ['Venta'])
         #union de Dataframes
         dft=pd.concat([df, dfc, dfv], axis=1)
         #print(dft)
@@ -127,7 +127,7 @@ while((hora.hour) in range (13,20)): #hora horario UTC
         dft2=dft.sort_values(by=['Venta'], kind="mergesort",ascending=True)
         dft.Venta = dft.Venta.astype(str)
         
-        #print(dft2)
+        print(dft2)
 
         #Seleccion de valores mayores a 1 en las listas
         listac=sorted(option2[0:24])
