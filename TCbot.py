@@ -119,8 +119,9 @@ twt(b[1],b[0])
 time.sleep(t)
                 
 for i in range(8):
+        b=scrap(homeurl)
         while((hora.hour) in range (13,20)): #hora horario UTC
-                        b=scrap(homeurl)
+                        
                         hora2=datetime.now(IST)
                         hora2=hora2.strftime('%H:%M:%S')
 
