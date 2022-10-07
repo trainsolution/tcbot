@@ -72,24 +72,6 @@ def scrap(homeurl):
                  del option3
                  del listav
                  del listac
-
-###### BARCHART 
-def bar(h): 
-        
-        page3n = requests.get(h,headers={'User-Agent': 'Mozilla/6.0' ,  'From': 'user2022@gmail.com','folder': '/Browsers - Windows/Legacy Browsers','description': 'Chrome 16.0 (Win 7 64)',"browserName": "Chrome"})
-        html_soup3n = BeautifulSoup(page3n.content,'html.parser')  
-        elemento = html_soup3n.find('div', class_="bc-quote-overview row")# Cuadrito de datos pequeños
-        new = re.findall("(\d*\.\d+|\d+.\d*)",str(elemento))  
-        listadatos = pd.DataFrame({
-                                'PRECIO CIERRE DE AYER':round(float(new[9]),3),
-                                'RANGO ULTIMO AÑO':new[19][0:4]+" - "+new[20][0:4],
-                                },index=[0])  
-        listadatos.set_index('PRECIO CIERRE DE AYER',inplace=True)       
-        lista=listadatos.T
-        #lista=lista.transpose()
-        #lista=tabulate(lista, headers='keys', tablefmt='psql',showindex="never")
-
-        return lista
 ##################### FUNCION DEL TWEET
 
 def twt(c,v):
@@ -121,17 +103,13 @@ def telegram_bot_sendtext(bot_message):
 
        
 homeurl = "https://cuantoestaeldolar.pe/"
-homeurl2= "https://www.barchart.com/forex/quotes/%5EUSDPEN"
-
 b=[]
 b=scrap(homeurl)
 print(b)
-c=bar(homeurl2)
-
 
 mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón CANALDOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
 mensajeALT="Actualizaciones del TC a partir de fluctuaciones mayores a S/ 0.01"
-mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n\n"+str(c)+"\n\n"
+mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n\n"
 test = telegram_bot_sendtext(mensaje+mensajeALT)
 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
 valor=b[0]
@@ -142,7 +120,6 @@ time.sleep(t)
                 
 for i in range(8):
         b=scrap(homeurl)
-        hora=now.time()
         time.sleep(1)
         while((hora.hour) in range (13,20)): #hora horario UTC
                         
