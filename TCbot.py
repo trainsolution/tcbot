@@ -120,6 +120,7 @@ time.sleep(t)
                 
 for i in range(8):
         b=scrap(homeurl)
+        time.sleep(1)
         while((hora.hour) in range (13,20)): #hora horario UTC
                         
                         hora2=datetime.now(IST)
