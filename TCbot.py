@@ -148,9 +148,9 @@ for i in range(8):
                                         print(mensaje)
                                         valor=b[0]
                                         twt(b[1],b[0])
-
+                        time.sleep(t)
                         break
-time.sleep(t)                   
+                   
 print(i)
         
 

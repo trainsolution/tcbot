@@ -18,7 +18,7 @@ dia=now.date()
 hora=now.time()
 dia1=dia.strftime('%d/%m/%Y')
 IST = pytz.timezone('America/Lima') 
-t=30
+t=5
 
 #####FUNCION BUSQUEDA DE DATOS
 
@@ -93,7 +93,7 @@ def twt(c,v):
 
 def telegram_bot_sendtext(bot_message):
                         bot_token = '5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y'
-                        bot_chatID = '-1001791296695'
+                        bot_chatID = '-1763327225' #grupo premiun
                         send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
                         response = requests.get(send_text)
                         return response.json()
@@ -108,7 +108,7 @@ b=scrap(homeurl)
 print(b)
 
 mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón CANALDOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
-mensajeALT="Actualizaciones del TC a partir de fluctuaciones mayores a S/ 0.01"
+mensajeALT="Actualizaciones del TC a partir de fluctuaciones mayores a S/ 0.005"
 mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n\n"
 #test = telegram_bot_sendtext(mensaje+mensajeALT)
 #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
@@ -116,16 +116,16 @@ valor=b[0]
 #twt(b[1],b[0])
 #print(mensaje)
                 
-time.sleep(t)
                 
-for i in range(8):
+for i in range(10):
+
         while((hora.hour) in range (0,20)): #hora horario UTC
                         b=scrap(homeurl)
                         hora2=datetime.now(IST)
                         hora2=hora2.strftime('%H:%M:%S')
 
                         #0.011 para evitar avisos por cambios muy pequeños de precio  
-                        if b[0] <= valor-0.005:
+                        if b[0] <= valor-0.002:
                                 
                                 incr = str(round(valor - b[0],4))
 
@@ -137,7 +137,7 @@ for i in range(8):
                                 #twt(b[1],b[0])
                                 
                         else:
-                                if b[0] >= valor+0.005:
+                                if b[0] >= valor+0.002:
                                         
                                         incr = str(round(b[0] -valor,4))
                                         mensaje = "ACTUALIZACION!: "+ hora2 +"\nEL DOLAR ONLINE HA SUBIDO S/ "+ incr + "\nCOMPRA: " + str(b[1])+ "\nVENTA: " + str(b[0]) + "\n"
