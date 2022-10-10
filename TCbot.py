@@ -81,7 +81,7 @@ def bar(h):
         elemento = html_soup3n.find('div', class_="bc-quote-overview row")# Cuadrito de datos pequeños
         new = re.findall("(\d*\.\d+|\d+.\d*)",str(elemento))  
         listadatos = pd.DataFrame({
-                                'PRECIO CIERRE DE AYER':round(float(new[9]),3),
+                                'PRECIO CIERRE ANTERIOR':round(float(new[9]),3),
                                 'RANGO ULTIMO AÑO':new[19][0:4]+" - "+new[20][0:4],
                                 },index=[0])  
         listadatos.set_index('PRECIO CIERRE ANTERIOR',inplace=True)       
