@@ -84,7 +84,7 @@ def bar(h):
                                 'PRECIO CIERRE DE AYER':round(float(new[9]),3),
                                 'RANGO ULTIMO AÑO':new[19][0:4]+" - "+new[20][0:4],
                                 },index=[0])  
-        listadatos.set_index('PRECIO CIERRE DE AYER',inplace=True)       
+        listadatos.set_index('PRECIO CIERRE ANTERIOR',inplace=True)       
         lista=listadatos.T
         #lista=lista.transpose()
         #lista=tabulate(lista, headers='keys', tablefmt='psql',showindex="never")
