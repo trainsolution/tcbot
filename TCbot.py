@@ -140,7 +140,7 @@ twt(b[1],b[0])
                 
 time.sleep(t)
                 
-for i in range(8):
+for i in range(24):
         b=scrap(homeurl)
         hora=now.time()
         time.sleep(1)
