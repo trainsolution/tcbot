@@ -144,7 +144,7 @@ for i in range(24):
         b=scrap(homeurl)
         hora=now.time()
         time.sleep(1)
-        while((hora.hour) in range (13,20)): #hora horario UTC
+        while((hora.hour) in range (12,20)): #hora horario UTC
                         
                         hora2=datetime.now(IST)
                         hora2=hora2.strftime('%H:%M:%S')

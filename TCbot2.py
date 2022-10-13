@@ -18,7 +18,7 @@ dia=now.date()
 hora=now.time()
 dia1=dia.strftime('%d/%m/%Y')
 IST = pytz.timezone('America/Lima') 
-t=5
+t=3
 
 #####FUNCION BUSQUEDA DE DATOS
 
@@ -145,11 +145,14 @@ valor=b[0]
                 
 for i in range(10):
 
+        b=scrap(homeurl)
+        hora=now.time()
+        
         while((hora.hour) in range (0,20)): #hora horario UTC
                         b=scrap(homeurl)
                         hora2=datetime.now(IST)
                         hora2=hora2.strftime('%H:%M:%S')
-
+                        print("codigo"+str(i))
                         #0.011 para evitar avisos por cambios muy pequeños de precio  
                         if b[0] <= valor-0.002:
                                 
@@ -172,9 +175,11 @@ for i in range(10):
                                         print(mensaje)
                                         valor=b[0]
                                         #twt(b[1],b[0])
+                        
+                        time.sleep(t)
                         break
-        time.sleep(t)
-        print(i)
+        
+print(i)
         
 print("El script recorrió todo el código")
 
