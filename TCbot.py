@@ -171,7 +171,7 @@ while((hora.hour) in range (12,20)): #hora horario UTC
                                         valor=b[0]
                                         twt(b[1],b[0])
                         time.sleep(t)
-                        break
+                        
                    
 print(i)
         
