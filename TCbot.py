@@ -128,24 +128,23 @@ b=scrap(homeurl)
 print(b)
 c=bar(homeurl2)
 
-
-mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón CANALDOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
-mensajeALT="Actualizaciones del TC a partir de fluctuaciones mayores a S/ 0.01"
-mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n\n"+str(c)+"\n\n"
-test = telegram_bot_sendtext(mensaje+mensajeALT)
-#urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
-valor=b[0]
-twt(b[1],b[0])
-#print(mensaje)
-                
-time.sleep(t)
-                
-for i in range(24):
-        b=scrap(homeurl)
-        hora=now.time()
-        time.sleep(1)
-        while((hora.hour) in range (12,20)): #hora horario UTC
+while((hora.hour) in range (12,20)): #hora horario UTC
+        mensajesocio2= urllib.parse.quote_plus("Aprovecha la oferta! Cambia tus dólares en inkamoney.com con el cupón CANALDOLAR y obtén un mejor tipo de cambio\nVálido hasta el 31/09/2022")
+        mensajeALT="Actualizaciones del TC a partir de fluctuaciones mayores a S/ 0.01"
+        mensaje ="HOY "+dia1+"\nEL DOLAR ONLINE SE COTIZA A:\n\nCOMPRA: " + str(b[1])+"\nVENTA: " + str(b[0]) + "\n\n"+str(c)+"\n\n"
+        test = telegram_bot_sendtext(mensaje+mensajeALT)
+        #urllib.request.urlopen(f"https://api.telegram.org/bot5381551675:AAFDvUALkEFHpY0GGB4Cr33BgukyHavwU4Y/sendMessage?chat_id=-1001791296695&text={mensajesocio2}")
+        valor=b[0]
+        twt(b[1],b[0])
+        #print(mensaje)
                         
+        time.sleep(t)
+                        
+        for i in range(24):
+                        b=scrap(homeurl)
+                        hora=now.time()
+                        time.sleep(1)
+
                         hora2=datetime.now(IST)
                         hora2=hora2.strftime('%H:%M:%S')
 
