@@ -140,7 +140,7 @@ while((hora.hour) in range (12,20)): #hora horario UTC
                         
         time.sleep(t)
                         
-        for i in range(24):
+        for i in range(7):
                         b=scrap(homeurl)
                         hora=now.time()
                         time.sleep(1)
@@ -172,7 +172,7 @@ while((hora.hour) in range (12,20)): #hora horario UTC
                                         twt(b[1],b[0])
                         time.sleep(t)
                         
-                   
+time.sleep(86400)                  
 print(i)
         
 
