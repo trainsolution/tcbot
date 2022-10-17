@@ -140,7 +140,7 @@ while((hora.hour) in range (12,20)): #hora horario UTC
                         
         time.sleep(t)
                         
-        for i in range(7):
+        for i in range(8):
                         b=scrap(homeurl)
                         hora=now.time()
                         time.sleep(1)
@@ -170,10 +170,11 @@ while((hora.hour) in range (12,20)): #hora horario UTC
                                         print(mensaje)
                                         valor=b[0]
                                         twt(b[1],b[0])
+                        print("Este el contador: "+str(i))
                         time.sleep(t)
                         
-time.sleep(86400)                  
-print(i)
+        print("Se acabó el script por hoy")
+        time.sleep(86400)                  
         
 
 
