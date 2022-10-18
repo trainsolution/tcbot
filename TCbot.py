@@ -170,7 +170,7 @@ while((hora.hour) in range (12,20)): #hora horario UTC
                                         print(mensaje)
                                         valor=b[0]
                                         twt(b[1],b[0])
-                        print("Este el contador: "+str(i))
+                        print("\nEste el contador: "+str(i)+"venta actual "+str(b[0]))
                         time.sleep(t)
                         
         print("Se acabó el script por hoy")
